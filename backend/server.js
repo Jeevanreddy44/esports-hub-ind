@@ -34,6 +34,15 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Esports Hub India Backend Running!' });
 });
 
+// Serve static frontend build
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// Catch-all route for React SPA, ignore unhandled API routes
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'API endpoint not found' });
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`🎮 Esports Hub India Backend running on port ${PORT}`);
 });

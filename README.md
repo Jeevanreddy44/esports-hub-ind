@@ -35,40 +35,26 @@ npm run dev
 
 ---
 
-## 🌐 Deployment Guide
+## 🌐 Deployment Guide (Unified)
 
-### Deploy Backend → Render (Free)
+This project has been updated to deploy *both* the Frontend and Backend together on a single Render instance.
+
+### Deploy Full-Stack App → Render (Free)
 
 1. Go to [render.com](https://render.com) and sign up
 2. Click **New → Web Service**
-3. Connect your GitHub repo, select the `backend` folder
+3. Connect your GitHub repository.
 4. Set these settings:
-   - **Build Command:** `npm install`
-   - **Start Command:** `node server.js`
-   - **Root Directory:** `backend`
+   - **Root Directory:** *(leave blank)*
+   - **Build Command:** `npm run build`
+   - **Start Command:** `npm start`
 5. Add Environment Variables:
    | Key | Value |
    |---|---|
    | `PORT` | `5000` |
    | `JWT_SECRET` | `your_secret_key_here` |
    | `GEMINI_API_KEY` | `your_gemini_api_key` (optional) |
-   | `FRONTEND_URL` | `*` |
-6. Click **Deploy** — copy the URL (e.g. `https://esports-hub-india.onrender.com`)
-
-### Deploy Frontend → Vercel (Free)
-
-1. Go to [vercel.com](https://vercel.com) and sign up
-2. Click **Add New Project**
-3. Connect your GitHub repo, select the `frontend` folder
-4. Set these settings:
-   - **Root Directory:** `frontend`
-   - **Build Command:** `npm run build`
-   - **Output Directory:** `dist`
-5. Add Environment Variable:
-   | Key | Value |
-   |---|---|
-   | `VITE_API_URL` | `https://your-render-url.onrender.com` |
-6. Click **Deploy** 🚀
+6. Click **Deploy** 🚀 The Node.js server will act as both your API and your static React file host!
 
 ---
 
