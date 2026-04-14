@@ -59,7 +59,7 @@ export default function Profile() {
               fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.85rem', color: 'var(--purple)',
             }}>🏅 {user.rank || 'Rookie'}</span>
             <span style={{ color: 'var(--text-secondary)', fontFamily: 'Rajdhani', fontSize: '0.9rem' }}>
-              🇮🇳 {user.state || 'India'}
+              {user.state || 'India'}
             </span>
             <span style={{ color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontSize: '0.85rem' }}>
               Joined {joinDate}

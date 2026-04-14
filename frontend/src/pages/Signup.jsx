@@ -185,7 +185,7 @@ export default function Signup() {
                 </div>
                 <div style={{ display: 'flex', gap: 12, marginBottom: 10 }}>
                   <span style={{ color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontSize: '0.85rem', width: 60 }}>STATE</span>
-                  <span style={{ fontFamily: 'Rajdhani', fontWeight: 700 }}>🇮🇳 {form.state}</span>
+                  <span style={{ fontFamily: 'Rajdhani', fontWeight: 700 }}>{form.state}</span>
                 </div>
                 <div style={{ display: 'flex', gap: 12 }}>
                   <span style={{ color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontSize: '0.85rem', width: 60 }}>GAMES</span>

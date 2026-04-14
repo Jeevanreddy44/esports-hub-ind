@@ -88,7 +88,7 @@ export default function Leaderboard() {
                     boxShadow: `0 0 20px ${top3[1].avatar_color}60`,
                   }}>{top3[1].player_name[0]}</div>
                   <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '0.95rem', marginBottom: 4 }}>{top3[1].player_name}</div>
-                  <div style={{ fontFamily: 'Rajdhani', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 10 }}>🇮🇳 {top3[1].state}</div>
+                  <div style={{ fontFamily: 'Rajdhani', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 10 }}>{top3[1].state}</div>
                   <div style={{ fontFamily: 'Orbitron', fontSize: '1.1rem', fontWeight: 800, color: '#c0c0c0' }}>{top3[1].points.toLocaleString()}</div>
                   <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', marginTop: 2 }}>{top3[1].wins} wins</div>
                 </div>
@@ -110,7 +110,7 @@ export default function Leaderboard() {
                     border: '2px solid rgba(255,214,10,0.4)',
                   }}>{top3[0].player_name[0]}</div>
                   <div style={{ fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1.1rem', marginBottom: 4 }}>{top3[0].player_name}</div>
-                  <div style={{ fontFamily: 'Rajdhani', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: 12 }}>🇮🇳 {top3[0].state}</div>
+                  <div style={{ fontFamily: 'Rajdhani', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: 12 }}>{top3[0].state}</div>
                   <div style={{
                     fontFamily: 'Orbitron', fontSize: '1.5rem', fontWeight: 900,
                     background: 'linear-gradient(135deg, #ffd60a, #ff9500)',
@@ -141,7 +141,7 @@ export default function Leaderboard() {
                     boxShadow: `0 0 20px ${top3[2].avatar_color}60`,
                   }}>{top3[2].player_name[0]}</div>
                   <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '0.9rem', marginBottom: 4 }}>{top3[2].player_name}</div>
-                  <div style={{ fontFamily: 'Rajdhani', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 10 }}>🇮🇳 {top3[2].state}</div>
+                  <div style={{ fontFamily: 'Rajdhani', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 10 }}>{top3[2].state}</div>
                   <div style={{ fontFamily: 'Orbitron', fontSize: '1.1rem', fontWeight: 800, color: '#cd7f32' }}>{top3[2].points.toLocaleString()}</div>
                   <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', marginTop: 2 }}>{top3[2].wins} wins</div>
                 </div>
@@ -163,7 +163,7 @@ export default function Leaderboard() {
                     <div className="player-info">
                       <div className="player-name">{player.player_name}</div>
                       <div className="player-meta">
-                        🇮🇳 {player.state}
+                        {player.state}
                         {game === 'all' && <span> · {GAME_ICONS[player.game]} {player.game}</span>}
                       </div>
                     </div>
