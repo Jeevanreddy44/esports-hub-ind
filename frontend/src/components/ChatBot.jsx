@@ -4,8 +4,8 @@ import { chatAPI } from '../services/api';
 const BOT_ICON = '🧠';
 const BOT_NAME = 'NeuroGamer';
 
-const FULL_INTRO = "Hey Gamer! 🧠 I'm **NeuroGamer**, your AI esports assistant! Ask me about tournaments, registration, prize pools, or game tips! Let's GWLP! 🚀";
-const SHORT_INTRO = "Welcome back, Gamer! 🧠 Ready for the next round? What can I help you with today?";
+const FULL_INTRO = "Hey Gamer! 🧠 I'm **NeuroGamer**, your AI Esports Assistant. Ask me about active tournaments, registration, or gaming tips. I'm connected to the platform database and ready to help! 🚀";
+const SHORT_INTRO = "Welcome back! 🧠 How can I help you dominate today?";
 
 const QUICK_PROMPTS = [
   '🏆 3-step Registration',
