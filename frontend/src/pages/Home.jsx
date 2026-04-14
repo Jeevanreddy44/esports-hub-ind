@@ -298,9 +298,13 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div className="footer-bottom">
-            <div className="footer-copy">© 2025 India Esports Hub. Made in India <span className="india-flag"></span></div>
-            <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}></div>
+          <div className="footer-bottom" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', width: '100%', gap: '8px' }}>
+            <div className="footer-copy" style={{ margin: 0, fontWeight: 500, letterSpacing: '0.5px' }}>
+              © {new Date().getFullYear()} India Esports Hub. All Rights Reserved.
+            </div>
+            <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              Proudly Designed & Developed in India <span className="india-flag" style={{ fontSize: '1.2rem' }}></span>
+            </div>
           </div>
         </div>
       </footer>
