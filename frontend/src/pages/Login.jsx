@@ -64,8 +64,10 @@ export default function Login() {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">👤 Email or Full Name</label>
+            <label className="form-label" htmlFor="login-identifier">👤 Email or Full Name</label>
             <input
+              id="login-identifier"
+              name="username"
               className="form-input"
               type="text"
               placeholder="your@email.com or player name"
@@ -76,9 +78,11 @@ export default function Login() {
           </div>
 
           <div className="form-group">
-            <label className="form-label">🔒 Password</label>
+            <label className="form-label" htmlFor="login-password">🔒 Password</label>
             <div style={{ position: 'relative' }}>
               <input
+                id="login-password"
+                name="password"
                 className="form-input"
                 type={show ? 'text' : 'password'}
                 placeholder="Enter your password"

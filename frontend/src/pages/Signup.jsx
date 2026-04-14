@@ -118,19 +118,19 @@ export default function Signup() {
           {step === 0 && (
             <>
               <div className="form-group">
-                <label className="form-label">👤 Full Name</label>
-                <input className="form-input" type="text" placeholder="Your gaming name" value={form.name}
+                <label className="form-label" htmlFor="sigup-name">👤 Full Name</label>
+                <input id="sigup-name" name="name" className="form-input" type="text" placeholder="Your gaming name" value={form.name}
                   onChange={e => setForm(p => ({ ...p, name: e.target.value }))} />
               </div>
               <div className="form-group">
-                <label className="form-label">📧 Email</label>
-                <input className="form-input" type="email" placeholder="your@email.com" value={form.email}
+                <label className="form-label" htmlFor="signup-email">📧 Email</label>
+                <input id="signup-email" name="email" className="form-input" type="email" placeholder="your@email.com" value={form.email}
                   onChange={e => setForm(p => ({ ...p, email: e.target.value }))} />
               </div>
               <div className="form-group">
-                <label className="form-label">🔒 Password</label>
+                <label className="form-label" htmlFor="signup-password">🔒 Password</label>
                 <div style={{ position: 'relative' }}>
-                  <input className="form-input" type={show ? 'text' : 'password'} placeholder="Min 8 characters"
+                  <input id="signup-password" name="password" className="form-input" type={show ? 'text' : 'password'} placeholder="Min 8 characters"
                     value={form.password} onChange={e => setForm(p => ({ ...p, password: e.target.value }))} style={{ paddingRight: 48 }} />
                   <button type="button" onClick={() => setShow(s => !s)} style={{
                     position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)',
