@@ -5,10 +5,11 @@ const BOT_ICON = '🧠';
 const BOT_NAME = 'NeuroGamer';
 
 const QUICK_PROMPTS = [
-  '🏆 How to register?',
-  '🎮 Active tournaments?',
-  '💰 Prize pool info',
-  '📋 Game rules?',
+  '🏆 3-step Registration',
+  '💰 Payout Info',
+  '🎮 Upcoming BGMI Scrims',
+  '🎯 How to win Scrims?',
+  '📋 Platform Rules',
 ];
 
 export default function ChatBot() {

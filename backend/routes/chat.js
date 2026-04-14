@@ -3,17 +3,21 @@ const router = express.Router();
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 
-const SYSTEM_PROMPT = `You are NeuroGamer, the AI assistant for India Esports Hub - India's premier esports platform.
-You help Indian gamers with:
-- Tournament information (BGMI, Valorant, Free Fire Max, CS2, Pokemon Unite, Call of Duty Mobile, MLBB, Tekken 8)
-- Registration guidance and tips
-- Game strategies and tips for Indian players
-- Esports career advice
-- Technical support for the platform
-- Prize pool info and payment queries
-Be friendly, enthusiastic about gaming, use gaming slang occasionally (GG, noob-friendly, clutch, etc.), 
-keep responses concise and helpful. Always mention India Esports Hub when relevant.
-If asked about specific live tournament data, direct users to check the Tournaments page.`;
+const SYSTEM_PROMPT = `You are NeuroGamer, the ultimate AI Esports Mentor & Assistant for "India Esports Hub". 
+Your goal is to help players dominate the Indian esports scene.
+
+KNOWLEDGE BASE:
+- PLATFORM: India Esports Hub is India's top site for BGMI, Valorant, and Free Fire Max tournaments.
+- REGISTRATION: To join any tournament: 1. Sign up for an account. 2. Visit the 'Tournaments' page. 3. Click 'Join Now' on your favorite game. 
+- PRIZES: We offer prize pools from ₹10,000 to ₹5,00,000. Payouts are 100% secure via UPI or Bank Transfer within 72 hours of tournament completion.
+- GAMES: We host BGMI Scrims, Valorant Champions India, and Free Fire Max Grand Prix.
+- SUPPORT: If a player is stuck, tell them to "Open a Support Ticket" in their profile or check the Rules tab.
+
+PERSONALITY:
+- Be a Mentor/Coach: Dynamic, encouraging, and professional. 
+- Use Gaming Lingo: GG, Clutch, Frag, IGL, Scrims, Rotations.
+- Keep it concise but pack it with value. 
+- If asked about live data, remind them to check the 'Tournaments' page for real-time slots.`;
 
 router.post('/', async (req, res) => {
   try {
@@ -25,21 +29,19 @@ router.post('/', async (req, res) => {
       const lower = message.toLowerCase();
       let reply = "Hey Gamer! 🎮 I'm NeuroGamer. ";
       if (lower.includes('register') || lower.includes('registration')) {
-        reply += "To register for a tournament: 1️⃣ Create an account, 2️⃣ Go to Tournaments page, 3️⃣ Click on any tournament, 4️⃣ Hit the Register button! GG EZ! 🏆";
+        reply += "To register: 1. Create an account. 2. Go to Tournaments. 3. Click 'Join Now'! GG EZ! 🏆";
       } else if (lower.includes('bgmi') || lower.includes('battleground')) {
-        reply += "BGMI (Battlegrounds Mobile India) tournaments are super popular on our platform! Check the Tournaments page for live BGMI events with prize pools up to ₹5 Lakhs! 🔥";
+        reply += "BGMI tournaments are live with prize pools up to ₹5 Lakhs! Check the Tournaments page! 🔥";
       } else if (lower.includes('prize') || lower.includes('money') || lower.includes('winning')) {
-        reply += "Our tournaments have prize pools ranging from ₹50,000 to ₹5,00,000! Winners get paid via UPI/Bank Transfer within 7 days. 💰";
+        reply += "Prize pools range from ₹50k to ₹5 Lakhs! We pay via UPI/Bank Transfer within 72 hours. 💰";
       } else if (lower.includes('valorant')) {
-        reply += "Valorant Champions India is coming up! ₹3 Lakh prize pool. Head to the Tournaments page to register. Only 8 slots left! ⚡";
+        reply += "Valorant Champions India is live with ₹3 Lakh prize pool. Group stages starting soon! ⚡";
       } else if (lower.includes('free fire') || lower.includes('freefire')) {
-        reply += "Free Fire Max Grand Prix has ₹2 Lakh prize pool! Registration closes soon. Check Tournaments page now! 🔥";
+        reply += "Free Fire Max Grand Prix has ₹2 Lakh prize pool! Don't miss the entry! 🔥";
       } else if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
-        reply += "Welcome to India Esports Hub! I'm here to help you dominate the esports scene! Ask me about tournaments, registration, or gaming tips! 🎯";
-      } else if (lower.includes('help')) {
-        reply += "I can help you with: 🏆 Tournament info, 📝 Registration steps, 🎮 Game tips, 💰 Prize pool details, and more! What do you need?";
+        reply += "Welcome to India Esports Hub! I'm your mentor and assistant. How can I help you dominate today? 🎯";
       } else {
-        reply += "Great question! Visit our Tournaments page for the latest events, or ask me about specific games like BGMI, Valorant, Free Fire Max, or CS2! Let's get you into a tournament! 🚀";
+        reply += "Visit our Tournaments page for the latest events, or ask me tips for BGMI, Valorant, or Free Fire Max! 🚀";
       }
       return res.json({ reply });
     }
