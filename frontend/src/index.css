@@ -799,9 +799,10 @@ ul { list-style: none; }
   transition: var(--transition);
 }
 .navbar.scrolled {
-  background: rgba(4,4,15,0.95);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
+  background: rgba(4,4,15,0.85);
+  backdrop-filter: blur(25px);
+  border-bottom: 1px solid rgba(0,243,255,0.2);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(0,243,255,0.05);
 }
 .navbar-inner {
   height: 100%;
@@ -1052,11 +1053,12 @@ footer {
 .footer-bottom {
   border-top: 1px solid var(--border);
   padding-top: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: gap;
-  gap: 16px;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  gap: 12px;
 }
 .footer-copy { color: var(--text-muted); font-size: 0.85rem; }
 .india-flag { font-size: 1.1rem; }
