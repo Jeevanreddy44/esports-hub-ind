@@ -4,6 +4,9 @@ import { chatAPI } from '../services/api';
 const BOT_ICON = '🧠';
 const BOT_NAME = 'NeuroGamer';
 
+const FULL_INTRO = "Hey Gamer! 🧠 I'm **NeuroGamer**, your AI esports assistant! Ask me about tournaments, registration, prize pools, or game tips! Let's GWLP! 🚀";
+const SHORT_INTRO = "Welcome back, Gamer! 🧠 Ready for the next round? What can I help you with today?";
+
 const QUICK_PROMPTS = [
   '🏆 3-step Registration',
   '💰 Payout Info',
@@ -15,9 +18,13 @@ const QUICK_PROMPTS = [
 export default function ChatBot() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
-  const [messages, setMessages] = useState([
-    { role: 'bot', text: "Hey Gamer! 🧠 I'm **NeuroGamer**, your AI esports assistant! Ask me about tournaments, registration, prize pools, or game tips! Let's GWLP! 🚀" }
-  ]);
+  
+  const getInitialMessage = () => {
+    const hasSeen = sessionStorage.getItem('hasSeenIntro');
+    return [{ role: 'bot', text: hasSeen ? SHORT_INTRO : FULL_INTRO }];
+  };
+
+  const [messages, setMessages] = useState(getInitialMessage());
   const [loading, setLoading] = useState(false);
   const messagesRef = useRef(null);
 
@@ -65,7 +72,11 @@ export default function ChatBot() {
               <div className="chatbot-title" style={{ fontFamily: 'Orbitron', fontSize: '0.85rem', letterSpacing: '0.05em' }}>NeuroGamer <span style={{ color: 'var(--cyan)', fontSize: '0.7rem' }}>AI</span></div>
               <div className="chatbot-status">Online & Ready</div>
             </div>
-            <button onClick={() => setOpen(false)} style={{
+            <button onClick={() => {
+              setOpen(false);
+              sessionStorage.setItem('hasSeenIntro', 'true');
+              setMessages(getInitialMessage());
+            }} style={{
               marginLeft: 'auto', background: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem'
             }}>✕</button>
           </div>

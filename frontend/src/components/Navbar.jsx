@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import logo from '../assets/logo_final.png';
 
@@ -12,8 +12,15 @@ const navLinks = [
 export default function Navbar() {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  
+  const handleLogout = () => {
+    logout();
+    setMobileOpen(false);
+    navigate('/login');
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -49,7 +56,7 @@ export default function Navbar() {
                 <Link to="/profile" className="btn btn-secondary btn-sm">
                   👤 {user.name.split(' ')[0]}
                 </Link>
-                <button onClick={logout} className="btn btn-sm" style={{
+                <button onClick={handleLogout} className="btn btn-sm" style={{
                   background: 'rgba(255,45,120,0.15)',
                   color: 'var(--pink)',
                   border: '1px solid rgba(255,45,120,0.3)'
@@ -82,7 +89,7 @@ export default function Navbar() {
         {user ? (
           <>
             <Link to="/profile" className="btn btn-secondary">👤 Profile</Link>
-            <button onClick={logout} className="btn" style={{
+            <button onClick={handleLogout} className="btn" style={{
               background: 'rgba(255,45,120,0.15)', color: 'var(--pink)', border: '1px solid rgba(255,45,120,0.3)'
             }}>Logout</button>
           </>
