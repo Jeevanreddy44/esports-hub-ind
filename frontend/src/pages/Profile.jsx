@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { tournamentAPI } from '../services/api';
+import Skeleton from '../components/common/Skeleton';
 import toast from 'react-hot-toast';
 
 const GAME_ICONS = { BGMI: '🎯', Valorant: '⚡', 'Free Fire Max': '🔥', CS2: '🎮', MLBB: '⚔️', 'Tekken 8': '👊', 'Pokemon Unite': '🔮', 'Call of Duty Mobile': '🪖', 'Clash Royale': '👑' };
@@ -111,9 +113,18 @@ export default function Profile() {
           </p>
 
           {loading ? (
-            <div className="loading-screen" style={{ minHeight: '200px' }}>
-              <div className="loader" />
-              <span className="loading-text">Loading...</span>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
+              {[1, 2, 3].map(i => (
+                <div key={i} className="glass-card">
+                   <Skeleton height="5px" className="mb-0" />
+                   <div style={{ padding: 20 }}>
+                     <Skeleton width="40px" height="40px" borderRadius="10px" className="mb-3" />
+                     <Skeleton width="150px" height="20px" className="mb-2" />
+                     <Skeleton width="80px" height="15px" className="mb-4" />
+                     <Skeleton height="40px" borderRadius="8px" />
+                   </div>
+                </div>
+              ))}
             </div>
           ) : myTournaments.length === 0 ? (
             <div className="glass-card" style={{ padding: 48, textAlign: 'center' }}>
@@ -125,35 +136,41 @@ export default function Profile() {
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
               {myTournaments.map((t, i) => (
-                <Link to={`/tournaments/${t.id}`} key={t.id}>
-                  <div className="glass-card anim-fade-up" style={{
-                    overflow: 'hidden', cursor: 'pointer', transition: 'all 0.3s ease',
-                    animationDelay: `${i * 0.07}s`,
-                  }}>
-                    <div style={{ height: 5, background: t.banner_color || 'var(--purple)' }} />
-                    <div style={{ padding: 20 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-                        <div>
-                          <div style={{ fontSize: '1.5rem', marginBottom: 6 }}>{GAME_ICONS[t.game] || '🎮'}</div>
-                          <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.3 }}>{t.title}</div>
+                <motion.div
+                  key={t._id || t.id}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  whileHover={{ y: -5, boxShadow: '0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(0,243,255,0.1)' }}
+                  style={{ height: '100%' }}
+                >
+                  <Link to={`/tournaments/${t._id || t.id}`}>
+                    <div className="glass-card" style={{ overflow: 'hidden', height: '100%' }}>
+                      <div style={{ height: 5, background: t.banner_color || 'var(--purple)' }} />
+                      <div style={{ padding: 20 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                          <div>
+                            <div style={{ fontSize: '1.5rem', marginBottom: 6 }}>{GAME_ICONS[t.game] || '🎮'}</div>
+                            <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.3 }}>{t.title}</div>
+                          </div>
+                          <span className={`badge badge-${t.status}`}>{t.status.toUpperCase()}</span>
                         </div>
-                        <span className={`badge badge-${t.status}`}>{t.status.toUpperCase()}</span>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1rem', background: 'linear-gradient(135deg, #ffd60a, #ff9500)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                            {t.prize_pool}
+                          </span>
+                          <span style={{ fontFamily: 'Rajdhani', fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t.start_date}</span>
+                        </div>
+                        <div style={{
+                          marginTop: 10, padding: '6px 10px', borderRadius: 6,
+                          background: 'rgba(0,255,136,0.08)', border: '1px solid rgba(0,255,136,0.2)',
+                          fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.78rem', color: 'var(--green)',
+                          display: 'flex', alignItems: 'center', gap: 5,
+                        }}>✅ Registered</div>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1rem', background: 'linear-gradient(135deg, #ffd60a, #ff9500)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                          {t.prize_pool}
-                        </span>
-                        <span style={{ fontFamily: 'Rajdhani', fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t.start_date}</span>
-                      </div>
-                      <div style={{
-                        marginTop: 10, padding: '6px 10px', borderRadius: 6,
-                        background: 'rgba(0,255,136,0.08)', border: '1px solid rgba(0,255,136,0.2)',
-                        fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.78rem', color: 'var(--green)',
-                        display: 'flex', alignItems: 'center', gap: 5,
-                      }}>✅ Registered</div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </motion.div>
               ))}
             </div>
           )}

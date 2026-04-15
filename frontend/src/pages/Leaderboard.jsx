@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { leaderboardAPI } from '../services/api';
+import Skeleton from '../components/common/Skeleton';
 
 const GAMES = ['all', 'BGMI', 'Valorant', 'Free Fire Max', 'CS2', 'MLBB', 'Tekken 8', 'Pokemon Unite', 'Call of Duty Mobile', 'Clash Royale'];
 const GAME_ICONS = { BGMI: '🎯', Valorant: '⚡', 'Free Fire Max': '🔥', CS2: '🎮', MLBB: '⚔️', 'Tekken 8': '👊', 'Pokemon Unite': '🔮', 'Call of Duty Mobile': '🪖', 'Clash Royale': '👑' };
@@ -19,6 +21,21 @@ export default function Leaderboard() {
 
   const top3 = players.slice(0, 3);
   const rest = players.slice(3);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
 
   return (
     <div className="page">
@@ -56,9 +73,15 @@ export default function Leaderboard() {
 
       <div className="container" style={{ padding: '40px 24px' }}>
         {loading ? (
-          <div className="loading-screen">
-            <div className="loader" />
-            <span className="loading-text">Loading champions...</span>
+          <div className="leaderboard-skeleton">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 48, alignItems: 'flex-end' }}>
+              <Skeleton height="200px" borderRadius="16px" />
+              <Skeleton height="280px" borderRadius="16px" />
+              <Skeleton height="180px" borderRadius="16px" />
+            </div>
+            {[1, 2, 3, 4, 5].map(i => (
+              <Skeleton key={i} height="80px" borderRadius="12px" className="mb-3" />
+            ))}
           </div>
         ) : players.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '80px 0', color: 'var(--text-muted)' }}>
@@ -66,96 +89,110 @@ export default function Leaderboard() {
             <p>No players found for this game yet!</p>
           </div>
         ) : (
-          <>
+          <motion.div variants={containerVariants} initial="hidden" animate="show">
             {/* Top 3 Podium */}
-            {top3.length === 3 && (
+            {top3.length >= 1 && (
               <div style={{
                 display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
                 gap: 16, marginBottom: 48, alignItems: 'flex-end',
-              }} className="anim-fade-up leaderboard-podium">
+              }} className="leaderboard-podium">
                 {/* 2nd Place */}
-                <div className="glass-card" style={{
-                  padding: '28px 20px', textAlign: 'center',
-                  borderColor: 'rgba(192,192,192,0.25)',
-                  background: 'linear-gradient(to bottom, rgba(192,192,192,0.06), transparent)',
-                }}>
-                  <div style={{ fontSize: '2rem', marginBottom: 8 }}>🥈</div>
-                  <div style={{
-                    width: 60, height: 60, borderRadius: 16, margin: '0 auto 12px',
-                    background: top3[1].avatar_color,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1.3rem',
-                    boxShadow: `0 0 20px ${top3[1].avatar_color}60`,
-                  }}>{top3[1].player_name[0]}</div>
-                  <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '0.95rem', marginBottom: 4 }}>{top3[1].player_name}</div>
-                  <div style={{ fontFamily: 'Rajdhani', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 10 }}>{top3[1].state}</div>
-                  <div style={{ fontFamily: 'Orbitron', fontSize: '1.1rem', fontWeight: 800, color: '#c0c0c0' }}>{top3[1].points.toLocaleString()}</div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', marginTop: 2 }}>{top3[1].wins} wins</div>
-                </div>
+                {top3[1] && (
+                  <motion.div variants={itemVariants} className="glass-card" style={{
+                    padding: '28px 20px', textAlign: 'center',
+                    borderColor: 'rgba(192,192,192,0.25)',
+                    background: 'linear-gradient(to bottom, rgba(192,192,192,0.06), transparent)',
+                  }}>
+                    <div style={{ fontSize: '2rem', marginBottom: 8 }}>🥈</div>
+                    <div style={{
+                      width: 60, height: 60, borderRadius: 16, margin: '0 auto 12px',
+                      background: top3[1].avatar_color,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1.3rem',
+                      boxShadow: `0 0 20px ${top3[1].avatar_color}60`,
+                    }}>{top3[1].player_name[0]}</div>
+                    <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '0.95rem', marginBottom: 4 }}>{top3[1].player_name}</div>
+                    <div style={{ fontFamily: 'Rajdhani', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 10 }}>{top3[1].state}</div>
+                    <div style={{ fontFamily: 'Orbitron', fontSize: '1.1rem', fontWeight: 800, color: '#c0c0c0' }}>{top3[1].points.toLocaleString()}</div>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', marginTop: 2 }}>{top3[1].wins} wins</div>
+                  </motion.div>
+                )}
 
                 {/* 1st Place */}
-                <div className="glass-card" style={{
-                  padding: '36px 24px', textAlign: 'center',
-                  borderColor: 'rgba(255,214,10,0.4)',
-                  background: 'linear-gradient(to bottom, rgba(255,214,10,0.08), transparent)',
-                  boxShadow: '0 0 40px rgba(255,214,10,0.15)',
-                }}>
-                  <div style={{ fontSize: '2.5rem', marginBottom: 8, animation: 'float 2s ease-in-out infinite' }}>👑</div>
-                  <div style={{
-                    width: 76, height: 76, borderRadius: 20, margin: '0 auto 14px',
-                    background: top3[0].avatar_color,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1.6rem',
-                    boxShadow: `0 0 30px ${top3[0].avatar_color}80, 0 0 60px rgba(255,214,10,0.2)`,
-                    border: '2px solid rgba(255,214,10,0.4)',
-                  }}>{top3[0].player_name[0]}</div>
-                  <div style={{ fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1.1rem', marginBottom: 4 }}>{top3[0].player_name}</div>
-                  <div style={{ fontFamily: 'Rajdhani', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: 12 }}>{top3[0].state}</div>
-                  <div style={{
-                    fontFamily: 'Orbitron', fontSize: '1.5rem', fontWeight: 900,
-                    background: 'linear-gradient(135deg, #ffd60a, #ff9500)',
-                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                  }}>{top3[0].points.toLocaleString()}</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', marginTop: 4 }}>{top3[0].wins} wins · {top3[0].tournaments_played} tournaments</div>
-                  {game === 'all' && (
+                {top3[0] && (
+                  <motion.div variants={itemVariants} className="glass-card" style={{
+                    padding: '36px 24px', textAlign: 'center',
+                    borderColor: 'rgba(255,214,10,0.4)',
+                    background: 'linear-gradient(to bottom, rgba(255,214,10,0.08), transparent)',
+                    boxShadow: '0 0 40px rgba(255,214,10,0.15)',
+                    scale: 1.05
+                  }}>
+                    <div style={{ fontSize: '2.5rem', marginBottom: 8, animation: 'float 2s ease-in-out infinite' }}>👑</div>
                     <div style={{
-                      marginTop: 12, padding: '5px 12px', borderRadius: 100, display: 'inline-block',
-                      background: 'rgba(255,214,10,0.15)', border: '1px solid rgba(255,214,10,0.3)',
-                      fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.78rem', color: '#ffd60a',
-                    }}>{GAME_ICONS[top3[0].game]} {top3[0].game}</div>
-                  )}
-                </div>
+                      width: 76, height: 76, borderRadius: 20, margin: '0 auto 14px',
+                      background: top3[0].avatar_color,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1.6rem',
+                      boxShadow: `0 0 30px ${top3[0].avatar_color}80, 0 0 60px rgba(255,214,10,0.2)`,
+                      border: '2px solid rgba(255,214,10,0.4)',
+                    }}>{top3[0].player_name[0]}</div>
+                    <div style={{ fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1.1rem', marginBottom: 4 }}>{top3[0].player_name}</div>
+                    <div style={{ fontFamily: 'Rajdhani', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: 12 }}>{top3[0].state}</div>
+                    <div style={{
+                      fontFamily: 'Orbitron', fontSize: '1.5rem', fontWeight: 900,
+                      background: 'linear-gradient(135deg, #ffd60a, #ff9500)',
+                      WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                    }}>{top3[0].points.toLocaleString()}</div>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', marginTop: 4 }}>{top3[0].wins} wins · {top3[0].tournaments_played} tournaments</div>
+                    {game === 'all' && (
+                      <div style={{
+                        marginTop: 12, padding: '5px 12px', borderRadius: 100, display: 'inline-block',
+                        background: 'rgba(255,214,10,0.15)', border: '1px solid rgba(255,214,10,0.3)',
+                        fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.78rem', color: '#ffd60a',
+                      }}>{GAME_ICONS[top3[0].game]} {top3[0].game}</div>
+                    )}
+                  </motion.div>
+                )}
 
                 {/* 3rd Place */}
-                <div className="glass-card" style={{
-                  padding: '24px 20px', textAlign: 'center',
-                  borderColor: 'rgba(205,127,50,0.2)',
-                  background: 'linear-gradient(to bottom, rgba(205,127,50,0.05), transparent)',
-                }}>
-                  <div style={{ fontSize: '2rem', marginBottom: 8 }}>🥉</div>
-                  <div style={{
-                    width: 56, height: 56, borderRadius: 14, margin: '0 auto 12px',
-                    background: top3[2].avatar_color,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1.2rem',
-                    boxShadow: `0 0 20px ${top3[2].avatar_color}60`,
-                  }}>{top3[2].player_name[0]}</div>
-                  <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '0.9rem', marginBottom: 4 }}>{top3[2].player_name}</div>
-                  <div style={{ fontFamily: 'Rajdhani', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 10 }}>{top3[2].state}</div>
-                  <div style={{ fontFamily: 'Orbitron', fontSize: '1.1rem', fontWeight: 800, color: '#cd7f32' }}>{top3[2].points.toLocaleString()}</div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', marginTop: 2 }}>{top3[2].wins} wins</div>
-                </div>
+                {top3[2] && (
+                  <motion.div variants={itemVariants} className="glass-card" style={{
+                    padding: '24px 20px', textAlign: 'center',
+                    borderColor: 'rgba(205,127,50,0.2)',
+                    background: 'linear-gradient(to bottom, rgba(205,127,50,0.05), transparent)',
+                  }}>
+                    <div style={{ fontSize: '2rem', marginBottom: 8 }}>🥉</div>
+                    <div style={{
+                      width: 56, height: 56, borderRadius: 14, margin: '0 auto 12px',
+                      background: top3[2].avatar_color,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1.2rem',
+                      boxShadow: `0 0 20px ${top3[2].avatar_color}60`,
+                    }}>{top3[2].player_name[0]}</div>
+                    <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '0.9rem', marginBottom: 4 }}>{top3[2].player_name}</div>
+                    <div style={{ fontFamily: 'Rajdhani', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 10 }}>{top3[2].state}</div>
+                    <div style={{ fontFamily: 'Orbitron', fontSize: '1.1rem', fontWeight: 800, color: '#cd7f32' }}>{top3[2].points.toLocaleString()}</div>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', marginTop: 2 }}>{top3[2].wins} wins</div>
+                  </motion.div>
+                )}
               </div>
             )}
 
             {/* Rest of leaderboard */}
             {rest.length > 0 && (
-              <div>
-                <h2 style={{ fontFamily: 'Orbitron', fontSize: '1rem', fontWeight: 700, marginBottom: 16, color: 'var(--text-secondary)' }}>
-                  OTHER TOP PLAYERS
-                </h2>
+              <AnimatePresence>
+                <motion.div variants={itemVariants}>
+                  <h2 style={{ fontFamily: 'Orbitron', fontSize: '1rem', fontWeight: 700, marginBottom: 16, color: 'var(--text-secondary)' }}>
+                    OTHER TOP PLAYERS
+                  </h2>
+                </motion.div>
                 {rest.map((player, i) => (
-                  <div key={player.id} className="leaderboard-row anim-fade-up" style={{ animationDelay: `${i * 0.05}s` }}>
+                  <motion.div 
+                    key={player._id || player.id} 
+                    variants={itemVariants}
+                    className="leaderboard-row"
+                    whileHover={{ x: 5, background: 'rgba(255, 255, 255, 0.08)' }}
+                  >
                     <div className="leaderboard-row-left">
                       <div className={`rank-badge rank-other`}>#{i + 4}</div>
                       <div className="player-avatar" style={{ background: player.avatar_color, boxShadow: `0 0 15px ${player.avatar_color}50` }}>
@@ -179,11 +216,11 @@ export default function Leaderboard() {
                         <div className="player-wins">PTS</div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </AnimatePresence>
             )}
-          </>
+          </motion.div>
         )}
       </div>
     </div>

@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { tournamentAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import Skeleton from '../components/common/Skeleton';
 import toast from 'react-hot-toast';
 
 const GAME_ICONS = { BGMI: '🎯', Valorant: '⚡', 'Free Fire Max': '🔥', CS2: '🎮', MLBB: '⚔️', 'Tekken 8': '👊', 'Pokemon Unite': '🔮', 'Call of Duty Mobile': '🪖', 'Clash Royale': '👑' };
@@ -22,7 +24,7 @@ export default function TournamentDetail() {
 
     if (user) {
       tournamentAPI.myRegistrations()
-        .then(r => setRegistered(r.data.tournaments.some(t => t.id === parseInt(id))))
+        .then(r => setRegistered(r.data.tournaments.some(t => (t._id || t.id) === id)))
         .catch(() => {});
     }
   }, [id, user]);
@@ -44,13 +46,32 @@ export default function TournamentDetail() {
     }
   };
 
-  if (loading) return <div className="page loading-screen"><div className="loader" /><span className="loading-text">Loading...</span></div>;
+  if (loading) return (
+    <div className="page">
+      <div className="container" style={{ padding: '32px 24px' }}>
+        <Skeleton width="150px" height="24px" className="mb-6" />
+        <Skeleton height="280px" borderRadius="16px" className="mb-8" />
+        <div className="grid-2-1" style={{ gap: 28 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <Skeleton height="150px" borderRadius="16px" />
+            <Skeleton height="300px" borderRadius="16px" />
+          </div>
+          <Skeleton height="400px" borderRadius="16px" />
+        </div>
+      </div>
+    </div>
+  );
+
   if (!tournament) return (
-    <div className="page not-found">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="page not-found"
+    >
       <div className="not-found-code gradient-text">404</div>
       <p>Tournament not found!</p>
       <Link to="/tournaments" className="btn btn-primary">← Back to Tournaments</Link>
-    </div>
+    </motion.div>
   );
 
   const pct = Math.round((tournament.slots_filled / tournament.slots) * 100);
@@ -119,7 +140,11 @@ export default function TournamentDetail() {
           </div>
         </div>
 
-        <div className="grid-2-1" style={{ gap: 28, alignItems: 'start' }}>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="grid-2-1" style={{ gap: 28, alignItems: 'start' }}
+        >
           {/* Main Info */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             {/* Description */}
@@ -166,11 +191,15 @@ export default function TournamentDetail() {
                 </h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {rules.map((rule, i) => (
-                    <div key={i} style={{
-                      display: 'flex', gap: 14, alignItems: 'flex-start',
-                      padding: '12px 16px', borderRadius: 'var(--radius-sm)',
-                      background: 'rgba(0,243,255,0.04)', border: '1px solid rgba(0,243,255,0.1)',
-                    }}>
+                    <motion.div 
+                      key={i} 
+                      whileHover={{ x: 5, background: 'rgba(0,243,255,0.08)' }}
+                      style={{
+                        display: 'flex', gap: 14, alignItems: 'flex-start',
+                        padding: '12px 16px', borderRadius: 'var(--radius-sm)',
+                        background: 'rgba(0,243,255,0.04)', border: '1px solid rgba(0,243,255,0.1)',
+                      }}
+                    >
                       <div style={{
                         width: 26, height: 26, borderRadius: 8, flexShrink: 0,
                         background: 'linear-gradient(135deg, var(--purple), var(--cyan))',
@@ -178,7 +207,7 @@ export default function TournamentDetail() {
                         fontFamily: 'Orbitron', fontWeight: 800, fontSize: '0.7rem',
                       }}>{i + 1}</div>
                       <span style={{ fontFamily: 'Rajdhani', fontWeight: 600, lineHeight: 1.5, paddingTop: 2 }}>{rule}</span>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -263,7 +292,7 @@ export default function TournamentDetail() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

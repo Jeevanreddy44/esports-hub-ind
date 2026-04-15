@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { tournamentAPI } from '../services/api';
+import Skeleton from '../components/common/Skeleton';
 import logo from '../assets/logo_final.png';
 
 const GAMES = [
@@ -31,10 +33,32 @@ const TICKER_ITEMS = [
   '👊 Tekken 8 India Clash — Register Now',
 ];
 
-function TournamentCard({ t }) {
+function TournamentCard({ t, isSkeleton }) {
+  if (isSkeleton) {
+    return (
+      <div className="glass-card tournament-card">
+        <div className="tournament-card-banner skeleton" style={{ height: '6px' }} />
+        <div className="tournament-card-body">
+          <Skeleton width="150px" height="24px" className="mb-2" />
+          <Skeleton width="80px" height="16px" className="mb-4" />
+          <div className="tournament-card-info">
+            {[1, 2, 3, 4].map(i => <Skeleton key={i} height="40px" />)}
+          </div>
+          <Skeleton height="44px" borderRadius="10px" />
+        </div>
+      </div>
+    );
+  }
+
   const pct = Math.round((t.slots_filled / t.slots) * 100);
   return (
-    <div className="glass-card tournament-card anim-fade-up">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0,243,255,0.1)' }}
+      className="glass-card tournament-card"
+    >
       <div className="tournament-card-banner" style={{ background: t.banner_color || 'var(--purple)' }} />
       <div className="tournament-card-body">
         <div className="tournament-card-header">
@@ -57,7 +81,13 @@ function TournamentCard({ t }) {
             <span className="info-label">🎯 Slots</span>
             <span className="info-value">{t.slots_filled}/{t.slots}</span>
             <div className="slots-bar">
-              <div className="slots-fill" style={{ width: `${pct}%`, background: t.banner_color || 'var(--cyan)' }} />
+              <motion.div 
+                initial={{ width: 0 }}
+                whileInView={{ width: `${pct}%` }}
+                transition={{ duration: 1, delay: 0.5 }}
+                className="slots-fill" 
+                style={{ background: t.banner_color || 'var(--cyan)' }} 
+              />
             </div>
           </div>
           <div className="info-item">
@@ -65,22 +95,34 @@ function TournamentCard({ t }) {
             <span className="info-value">{t.location}</span>
           </div>
         </div>
-        <Link to={`/tournaments/${t.id}`} className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+        <Link to={`/tournaments/${t._id || t.id}`} className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
           View Details →
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 export default function Home() {
-  const [liveT, setLiveT] = useState([]);
-  const [upcomingT, setUpcomingT] = useState([]);
-  const [counter, setCounter] = useState({ players: 0, prize: 0, tournaments: 0 });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    tournamentAPI.getAll({ status: 'live' }).then(r => setLiveT(r.data.tournaments)).catch(() => { });
-    tournamentAPI.getAll({ status: 'upcoming' }).then(r => setUpcomingT(r.data.tournaments.slice(0, 3))).catch(() => { });
+    const fetchData = async () => {
+      try {
+        const [liveRes, upcomingRes] = await Promise.all([
+          tournamentAPI.getAll({ status: 'live' }),
+          tournamentAPI.getAll({ status: 'upcoming' })
+        ]);
+        setLiveT(liveRes.data.tournaments);
+        setUpcomingT(upcomingRes.data.tournaments.slice(0, 3));
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
 
     // Count-up animation
     const targets = { players: 50000, prize: 200, tournaments: 200 };
@@ -201,13 +243,21 @@ export default function Home() {
           <p className="section-subtitle anim-fade-up delay-100">Tournaments across India's most played esports titles</p>
           <div className="games-grid">
             {GAMES.map((g, i) => (
-              <Link to={`/tournaments?game=${g.name}`} key={g.name}
-                className="glass-card game-card anim-fade-up"
-                style={{ '--game-color': g.color, animationDelay: `${i * 0.08}s` }}>
-                <span className="game-icon">{g.icon}</span>
-                <div className="game-name">{g.name}</div>
-                <div className="game-count" style={{ color: g.color }}>Active Tournaments</div>
-              </Link>
+              <motion.div
+                key={g.name}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+              >
+                <Link to={`/tournaments?game=${g.name}`}
+                  className="glass-card game-card"
+                  style={{ '--game-color': g.color }}>
+                  <span className="game-icon">{g.icon}</span>
+                  <div className="game-name">{g.name}</div>
+                  <div className="game-count" style={{ color: g.color }}>Active Tournaments</div>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -238,7 +288,10 @@ export default function Home() {
           </div>
           <p className="section-subtitle">Register now before slots fill up!</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 24 }}>
-            {upcomingT.map(t => <TournamentCard key={t.id} t={t} />)}
+            {isLoading 
+              ? [1, 2, 3].map(i => <TournamentCard key={i} isSkeleton />)
+              : upcomingT.map(t => <TournamentCard key={t._id || t.id} t={t} />)
+            }
           </div>
         </div>
       </section>

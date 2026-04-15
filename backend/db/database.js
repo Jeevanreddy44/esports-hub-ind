@@ -1,99 +1,32 @@
-const Database = require('better-sqlite3');
-const path = require('path');
-const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
+const User = require('../models/User');
+const Tournament = require('../models/Tournament');
+const Leaderboard = require('../models/Leaderboard');
 
-const DB_PATH = path.join(__dirname, '../data/esports.db');
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/esports_hub';
 
-let db;
+async function initDB() {
+  try {
+    await mongoose.connect(MONGODB_URI);
+    console.log('🚀 Connected to MongoDB Atlas');
 
-function getDB() {
-  if (!db) {
-    db = new Database(DB_PATH);
-    db.pragma('journal_mode = WAL');
+    // Seed data if empty
+    const tourCount = await Tournament.countDocuments();
+    if (tourCount === 0) {
+      await seedTournaments();
+    }
+
+    const lbCount = await Leaderboard.countDocuments();
+    if (lbCount === 0) {
+      await seedLeaderboard();
+    }
+  } catch (err) {
+    console.error('❌ MongoDB Connection Error:', err.message);
+    process.exit(1);
   }
-  return db;
 }
 
-function initDB() {
-  const fs = require('fs');
-  const dataDir = path.join(__dirname, '../data');
-  if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
-
-  const database = getDB();
-
-  // Create tables
-  database.exec(`
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      email TEXT UNIQUE NOT NULL,
-      password TEXT NOT NULL,
-      state TEXT DEFAULT 'Maharashtra',
-      games TEXT DEFAULT '[]',
-      avatar TEXT DEFAULT '',
-      rank TEXT DEFAULT 'Rookie',
-      points INTEGER DEFAULT 0,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS tournaments (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL,
-      game TEXT NOT NULL,
-      game_icon TEXT DEFAULT '',
-      status TEXT DEFAULT 'upcoming',
-      prize_pool TEXT DEFAULT '₹10,000',
-      slots INTEGER DEFAULT 64,
-      slots_filled INTEGER DEFAULT 0,
-      start_date TEXT NOT NULL,
-      end_date TEXT,
-      registration_deadline TEXT,
-      location TEXT DEFAULT 'Online',
-      organizer TEXT DEFAULT 'Esports Hub India',
-      description TEXT DEFAULT '',
-      rules TEXT DEFAULT '[]',
-      banner_color TEXT DEFAULT '#7B2FFF',
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS registrations (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER,
-      tournament_id INTEGER,
-      registered_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (user_id) REFERENCES users(id),
-      FOREIGN KEY (tournament_id) REFERENCES tournaments(id),
-      UNIQUE(user_id, tournament_id)
-    );
-
-    CREATE TABLE IF NOT EXISTS leaderboard (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      player_name TEXT NOT NULL,
-      game TEXT NOT NULL,
-      state TEXT DEFAULT 'Maharashtra',
-      rank INTEGER DEFAULT 1,
-      points INTEGER DEFAULT 1000,
-      wins INTEGER DEFAULT 0,
-      tournaments_played INTEGER DEFAULT 0,
-      avatar_color TEXT DEFAULT '#7B2FFF'
-    );
-  `);
-
-  // Seed data if empty
-  const tourCount = database.prepare('SELECT COUNT(*) as c FROM tournaments').get();
-  if (tourCount.c === 0) {
-    seedTournaments(database);
-  }
-
-  const lbCount = database.prepare('SELECT COUNT(*) as c FROM leaderboard').get();
-  if (lbCount.c === 0) {
-    seedLeaderboard(database);
-  }
-
-  console.log('✅ SQLite Database initialized');
-}
-
-function seedTournaments(db) {
+async function seedTournaments() {
   const tournaments = [
     {
       title: 'BGMI India Masters 2025', game: 'BGMI', status: 'live',
@@ -102,7 +35,7 @@ function seedTournaments(db) {
       registration_deadline: '2025-04-08', location: 'Online',
       organizer: 'Krafton India', banner_color: '#FF6B35',
       description: 'The biggest BGMI tournament in India with massive prize pool. 64 teams battle for glory!',
-      rules: JSON.stringify(['Team of 4 required', 'No emulators allowed', 'Players must be Indian residents', 'Fair play policy enforced'])
+      rules: ['Team of 4 required', 'No emulators allowed', 'Players must be Indian residents', 'Fair play policy enforced']
     },
     {
       title: 'Valorant Champions India', game: 'Valorant', status: 'upcoming',
@@ -111,7 +44,7 @@ function seedTournaments(db) {
       registration_deadline: '2025-04-28', location: 'Online',
       organizer: 'Riot Games India', banner_color: '#FF4655',
       description: 'India Valorant Championship - prove your worth among the best agents in India!',
-      rules: JSON.stringify(['Team of 5 required', 'Account must be Iron to Radiant', 'Players from India only', 'No account sharing'])
+      rules: ['Team of 5 required', 'Account must be Iron to Radiant', 'Players from India only', 'No account sharing']
     },
     {
       title: 'Free Fire Max Grand Prix', game: 'Free Fire Max', status: 'upcoming',
@@ -120,7 +53,7 @@ function seedTournaments(db) {
       registration_deadline: '2025-04-22', location: 'Online',
       organizer: 'Garena India', banner_color: '#FF9500',
       description: 'Free Fire Max India Grand Prix - the ultimate battle royale showdown!',
-      rules: JSON.stringify(['Squad of 4', 'Level 30+ accounts only', 'Indian players only', 'No hacks or mods'])
+      rules: ['Squad of 4', 'Level 30+ accounts only', 'Indian players only', 'No hacks or mods']
     },
     {
       title: 'CS2 India Open', game: 'CS2', status: 'upcoming',
@@ -129,7 +62,7 @@ function seedTournaments(db) {
       registration_deadline: '2025-05-07', location: 'Online - Mumbai Server',
       organizer: 'ESL India', banner_color: '#F59E0B',
       description: 'Counter-Strike 2 India Open - the premier FPS tournament for Indian players!',
-      rules: JSON.stringify(['Team of 5 + 1 sub', 'Minimum rank: Silver Elite', 'No VAC banned players', 'Indian residents only'])
+      rules: ['Team of 5 + 1 sub', 'Minimum rank: Silver Elite', 'No VAC banned players', 'Indian residents only']
     },
     {
       title: 'Pokemon Unite Championship', game: 'Pokemon Unite', status: 'past',
@@ -138,7 +71,7 @@ function seedTournaments(db) {
       registration_deadline: '2025-03-12', location: 'Online',
       organizer: 'TiMi Studio India', banner_color: '#8B5CF6',
       description: 'National Online Pokemon Unite Championship for all Indian players.',
-      rules: JSON.stringify(['Team of 5 required', 'Indian players only', 'Double elimination'])
+      rules: ['Team of 5 required', 'Indian players only', 'Double elimination']
     },
     {
       title: 'Mobile Legends India Cup', game: 'MLBB', status: 'past',
@@ -147,7 +80,7 @@ function seedTournaments(db) {
       registration_deadline: '2025-02-27', location: 'Online',
       organizer: 'Moonton India', banner_color: '#06B6D4',
       description: 'Mobile Legends Bang Bang India Cup - the premier MOBA tournament.',
-      rules: JSON.stringify(['Team of 5', 'Mythic rank required', 'Indian players only', 'No smurfing'])
+      rules: ['Team of 5', 'Mythic rank required', 'Indian players only', 'No smurfing']
     },
     {
       title: 'Tekken 8 India Clash', game: 'Tekken 8', status: 'upcoming',
@@ -155,8 +88,8 @@ function seedTournaments(db) {
       start_date: '2025-05-20', end_date: '2025-05-21',
       registration_deadline: '2025-05-17', location: 'Online',
       organizer: 'Bandai Namco India', banner_color: '#EC4899',
-      description: 'India\'s biggest Tekken 8 tournament with players from across the country!',
-      rules: JSON.stringify(['1v1 singles bracket', 'Double elimination', 'All characters allowed', 'Best of 3 rounds'])
+      description: "India's biggest Tekken 8 tournament with players from across the country!",
+      rules: ['1v1 singles bracket', 'Double elimination', 'All characters allowed', 'Best of 3 rounds']
     },
     {
       title: 'BGMI Rookie Cup', game: 'BGMI', status: 'live',
@@ -165,20 +98,15 @@ function seedTournaments(db) {
       registration_deadline: '2025-04-11', location: 'Online',
       organizer: 'Esports Hub India', banner_color: '#10B981',
       description: 'Special tournament for beginner BGMI players to kickstart their esports journey!',
-      rules: JSON.stringify(['Solo/Duo/Squad modes', 'New players welcome', 'Bronze-Silver tier only', 'Fair play mandatory'])
+      rules: ['Solo/Duo/Squad modes', 'New players welcome', 'Bronze-Silver tier only', 'Fair play mandatory']
     },
   ];
 
-  const insert = db.prepare(`
-    INSERT INTO tournaments (title, game, status, prize_pool, slots, slots_filled, start_date, end_date, registration_deadline, location, organizer, banner_color, description, rules)
-    VALUES (@title, @game, @status, @prize_pool, @slots, @slots_filled, @start_date, @end_date, @registration_deadline, @location, @organizer, @banner_color, @description, @rules)
-  `);
-
-  tournaments.forEach(t => insert.run(t));
+  await Tournament.insertMany(tournaments);
   console.log('✅ Tournaments seeded');
 }
 
-function seedLeaderboard(db) {
+async function seedLeaderboard() {
   const players = [
     { player_name: 'ScorpionX', game: 'BGMI', state: 'Maharashtra', rank: 1, points: 9850, wins: 47, tournaments_played: 62, avatar_color: '#FF6B35' },
     { player_name: 'NightHawk_IN', game: 'BGMI', state: 'Delhi', rank: 2, points: 9600, wins: 43, tournaments_played: 58, avatar_color: '#7B2FFF' },
@@ -194,13 +122,8 @@ function seedLeaderboard(db) {
     { player_name: 'BombSquad', game: 'CS2', state: 'Kerala', rank: 3, points: 9000, wins: 22, tournaments_played: 30, avatar_color: '#FF2D78' },
   ];
 
-  const insert = db.prepare(`
-    INSERT INTO leaderboard (player_name, game, state, rank, points, wins, tournaments_played, avatar_color)
-    VALUES (@player_name, @game, @state, @rank, @points, @wins, @tournaments_played, @avatar_color)
-  `);
-
-  players.forEach(p => insert.run(p));
+  await Leaderboard.insertMany(players);
   console.log('✅ Leaderboard seeded');
 }
 
-module.exports = { getDB, initDB };
+module.exports = { initDB };

@@ -1,17 +1,15 @@
 const express = require('express');
-const { getDB } = require('../db/database');
+const Leaderboard = require('../models/Leaderboard');
 const router = express.Router();
 
 // GET /api/leaderboard
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const { game } = req.query;
-    const db = getDB();
-    let query = 'SELECT * FROM leaderboard WHERE 1=1';
-    const params = [];
-    if (game && game !== 'all') { query += ' AND game = ?'; params.push(game); }
-    query += ' ORDER BY points DESC';
-    const players = db.prepare(query).all(...params);
+    let filter = {};
+    if (game && game !== 'all') filter.game = game;
+
+    const players = await Leaderboard.find(filter).sort({ points: -1 });
     res.json({ players });
   } catch (err) {
     res.status(500).json({ error: err.message });
