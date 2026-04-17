@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { tournamentAPI } from '../services/api';
 import Skeleton from '../components/common/Skeleton';
+import CountdownTimer from '../components/CountdownTimer';
 import logo from '../assets/logo_final.png';
 
 const GAMES = [
@@ -33,72 +34,80 @@ const TICKER_ITEMS = [
   '👊 Tekken 8 India Clash — Register Now',
 ];
 
+const GAME_ICONS = { BGMI: '🎯', Valorant: '⚡', 'Free Fire Max': '🔥', CS2: '🎮', MLBB: '⚔️', 'Tekken 8': '👊', 'Pokemon Unite': '🔮', 'Call of Duty Mobile': '🪖', 'Clash Royale': '👑' };
+
 function TournamentCard({ t, isSkeleton }) {
   if (isSkeleton) {
     return (
-      <div className="glass-card tournament-card">
-        <div className="tournament-card-banner skeleton" style={{ height: '6px' }} />
-        <div className="tournament-card-body">
-          <Skeleton width="150px" height="24px" className="mb-2" />
-          <Skeleton width="80px" height="16px" className="mb-4" />
-          <div className="tournament-card-info">
-            {[1, 2, 3, 4].map(i => <Skeleton key={i} height="40px" />)}
-          </div>
-          <Skeleton height="44px" borderRadius="10px" />
-        </div>
+      <div style={{ borderRadius: 20, overflow: 'hidden', background: 'rgba(13,13,35,0.7)', border: '1px solid rgba(255,255,255,0.05)', padding: 24 }}>
+        <Skeleton width="50px" height="50px" borderRadius="14px" className="mb-3" />
+        <Skeleton width="70%" height="22px" className="mb-2" />
+        <Skeleton width="40%" height="16px" className="mb-4" />
+        <Skeleton height="44px" borderRadius="12px" />
       </div>
     );
   }
 
-  const pct = Math.round((t.slots_filled / t.slots) * 100);
+  const pct = t.slots > 0 ? Math.round((t.slots_filled / t.slots) * 100) : 0;
+  const isAlmostFull = pct >= 85;
+  const accentColor = t.banner_color || '#7b2fff';
+
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0,243,255,0.1)' }}
-      className="glass-card tournament-card"
+      transition={{ duration: 0.4 }}
+      whileHover={{ y: -8, transition: { duration: 0.2 } }}
+      style={{ height: '100%' }}
     >
-      <div className="tournament-card-banner" style={{ background: t.banner_color || 'var(--purple)' }} />
-      <div className="tournament-card-body">
-        <div className="tournament-card-header">
-          <div>
-            <div className="tournament-card-title">{t.title}</div>
-            <div className="tournament-card-game">{t.game}</div>
-          </div>
-          <span className={`badge badge-${t.status}`}>{t.status}</span>
-        </div>
-        <div className="tournament-card-info">
-          <div className="info-item">
-            <span className="info-label">💰 Prize</span>
-            <span className="prize-amount">{t.prize_pool}</span>
-          </div>
-          <div className="info-item">
-            <span className="info-label">📅 Date</span>
-            <span className="info-value">{t.start_date}</span>
-          </div>
-          <div className="info-item">
-            <span className="info-label">🎯 Slots</span>
-            <span className="info-value">{t.slots_filled}/{t.slots}</span>
-            <div className="slots-bar">
-              <motion.div 
-                initial={{ width: 0 }}
-                whileInView={{ width: `${pct}%` }}
-                transition={{ duration: 1, delay: 0.5 }}
-                className="slots-fill" 
-                style={{ background: t.banner_color || 'var(--cyan)' }} 
-              />
+      <Link to={`/tournaments/${t._id || t.id}`} style={{ display: 'block', height: '100%' }}>
+        <div style={{
+          height: '100%', borderRadius: 20, overflow: 'hidden',
+          background: 'rgba(10,10,28,0.9)',
+          border: '1px solid rgba(255,255,255,0.07)',
+          backdropFilter: 'blur(20px)',
+          position: 'relative', display: 'flex', flexDirection: 'column',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+          transition: 'all 0.3s ease',
+        }}>
+          <div style={{ height: 5, width: '100%', flexShrink: 0, background: `linear-gradient(90deg, ${accentColor}, ${accentColor}88)` }} />
+          <div style={{ position: 'absolute', left: 0, top: 5, bottom: 0, width: 3, background: `linear-gradient(to bottom, ${accentColor}, transparent)`, opacity: 0.7 }} />
+          <div style={{ padding: '20px 22px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+              <div style={{ width: 48, height: 48, borderRadius: 13, background: `${accentColor}22`, border: `1px solid ${accentColor}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>
+                {GAME_ICONS[t.game] || '🎮'}
+              </div>
+              {t.status === 'live' ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 100, background: 'rgba(255,45,120,0.15)', border: '1px solid rgba(255,45,120,0.5)', fontFamily: 'Rajdhani', fontWeight: 800, fontSize: '0.72rem', color: '#ff2d78', letterSpacing: '0.08em' }}>
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#ff2d78', animation: 'live-pulse 1s ease-in-out infinite', display: 'inline-block' }} />
+                  🔴 LIVE
+                </div>
+              ) : (
+                <div style={{ padding: '4px 10px', borderRadius: 100, background: 'rgba(0,243,255,0.08)', border: '1px solid rgba(0,243,255,0.25)', fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.72rem', color: 'var(--cyan)' }}>🔵 UPCOMING</div>
+              )}
+            </div>
+            <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.35, marginBottom: 4, color: '#fff' }}>{t.title}</div>
+            <div style={{ fontFamily: 'Rajdhani', fontWeight: 600, fontSize: '0.82rem', color: accentColor, marginBottom: 12 }}>{t.game}</div>
+            <div style={{ padding: '10px 12px', borderRadius: 10, marginBottom: 12, background: 'rgba(255,214,10,0.06)', border: '1px solid rgba(255,214,10,0.15)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 2 }}>🏆 Prize</div>
+                <div style={{ fontFamily: 'Orbitron', fontWeight: 800, fontSize: '0.9rem', background: 'linear-gradient(135deg, #ffd60a, #ff9500)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{t.prize_pool}</div>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 2 }}>🎯 Slots</div>
+                <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.9rem', color: isAlmostFull ? 'var(--pink)' : 'var(--text-secondary)' }}>{t.slots_filled}/{t.slots}</div>
+              </div>
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <CountdownTimer targetDate={t.start_date} status={t.status} />
+            </div>
+            <div style={{ marginTop: 'auto', padding: '11px 16px', borderRadius: 11, textAlign: 'center', fontFamily: 'Rajdhani', fontWeight: 800, fontSize: '0.9rem', background: `linear-gradient(135deg, ${accentColor}dd, ${accentColor}88)`, color: '#fff', boxShadow: `0 4px 16px ${accentColor}40` }}>
+              {t.status === 'live' ? '🔴 Join Now →' : '📝 Register Now →'}
             </div>
           </div>
-          <div className="info-item">
-            <span className="info-label">📍 Mode</span>
-            <span className="info-value">{t.location}</span>
-          </div>
         </div>
-        <Link to={`/tournaments/${t._id || t.id}`} className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-          View Details →
-        </Link>
-      </div>
+      </Link>
     </motion.div>
   );
 }

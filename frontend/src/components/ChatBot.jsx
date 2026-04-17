@@ -1,32 +1,29 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { chatAPI } from '../services/api';
 
-const BOT_ICON = '🧠';
-const BOT_NAME = 'NeuroGamer';
-
-const FULL_INTRO = "Hey Gamer! 🧠 I'm **NeuroGamer**, your AI Esports Assistant. Ask me about active tournaments, registration, or gaming tips. I'm connected to the platform database and ready to help! 🚀";
-const SHORT_INTRO = "Welcome back! 🧠 How can I help you dominate today?";
-
 const QUICK_PROMPTS = [
-  '🏆 3-step Registration',
-  '💰 Payout Info',
-  '🎮 Upcoming BGMI Scrims',
-  '🎯 How to win Scrims?',
-  '📋 Platform Rules',
+  '🏆 Live Tournaments',
+  '💰 Prize & Payouts',
+  '🎮 BGMI Tournaments',
+  '⚡ Valorant Events',
+  '📋 How to Register',
 ];
 
 export default function ChatBot() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
-  
-  const getInitialMessage = () => {
+  const [messages, setMessages] = useState(() => {
     const hasSeen = sessionStorage.getItem('hasSeenIntro');
-    return [{ role: 'bot', text: hasSeen ? SHORT_INTRO : FULL_INTRO }];
-  };
-
-  const [messages, setMessages] = useState(getInitialMessage());
+    return [{
+      role: 'bot',
+      text: hasSeen
+        ? "Welcome back! 🧠 How can I help you dominate today?"
+        : "Hey Gamer! 🧠 I'm **NeuroGamer**, your AI Esports Mentor for India Esports Hub. Ask me about live tournaments, registration, prizes, or gaming tips!"
+    }];
+  });
   const [loading, setLoading] = useState(false);
   const messagesRef = useRef(null);
+  const windowRef = useRef(null);
 
   useEffect(() => {
     if (messagesRef.current) {
@@ -34,7 +31,26 @@ export default function ChatBot() {
     }
   }, [messages]);
 
-  const sendMessage = async (text) => {
+  // Close on outside click
+  useEffect(() => {
+    if (!open) return;
+    const handleClick = (e) => {
+      if (windowRef.current && !windowRef.current.contains(e.target)) {
+        const toggle = document.getElementById('chatbot-toggle-btn');
+        if (toggle && toggle.contains(e.target)) return;
+        setOpen(false);
+        sessionStorage.setItem('hasSeenIntro', 'true');
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    document.addEventListener('touchstart', handleClick);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('touchstart', handleClick);
+    };
+  }, [open]);
+
+  const sendMessage = useCallback(async (text) => {
     const msg = text || input.trim();
     if (!msg || loading) return;
     setInput('');
@@ -44,80 +60,117 @@ export default function ChatBot() {
       const history = messages.slice(-6);
       const res = await chatAPI.send({ message: msg, history });
       setMessages(prev => [...prev, { role: 'bot', text: res.data.reply }]);
-    } catch (err) {
-      console.error('ChatBot Frontend Error:', err);
-      setMessages(prev => [...prev, { role: 'bot', text: "I'm having a slight connection glitch! 🧠 But don't worry—you can always find live schedules and details on our **Tournaments** page. Try again in a moment! 🚀" }]);
+    } catch {
+      setMessages(prev => [...prev, {
+        role: 'bot',
+        text: "I'm having a slight connection glitch! 🧠 Check the **Tournaments** page for live schedules. Try again in a moment! 🚀"
+      }]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [input, loading, messages]);
 
   const handleKey = (e) => { if (e.key === 'Enter') sendMessage(); };
 
-  const formatText = (text) => {
-    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');
+  const formatText = (text) =>
+    text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');
+
+  const closeBot = () => {
+    setOpen(false);
+    sessionStorage.setItem('hasSeenIntro', 'true');
   };
 
   return (
     <>
+      {/* Chatbot Window */}
       {open && (
-        <div className="chatbot-window">
-          <div className="chatbot-header" style={{ background: 'linear-gradient(135deg, rgba(123,47,255,0.4), rgba(0,243,255,0.2))' }}>
-            <div className="chatbot-avatar" style={{
+        <div ref={windowRef} className="chatbot-window" style={{
+          position: 'fixed', bottom: 104, right: 28,
+          width: 'min(380px, calc(100vw - 40px))',
+          maxHeight: 540,
+          borderRadius: 20,
+          background: 'rgba(6,6,22,0.98)',
+          border: '1px solid rgba(0,243,255,0.2)',
+          boxShadow: '0 24px 60px rgba(0,0,0,0.8), 0 0 60px rgba(123,47,255,0.15)',
+          zIndex: 10000,
+          display: 'flex', flexDirection: 'column', overflow: 'hidden',
+          backdropFilter: 'blur(30px)',
+          animation: 'bounce-in 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards',
+        }}>
+          {/* Header */}
+          <div style={{
+            padding: '16px 20px',
+            background: 'linear-gradient(135deg, rgba(123,47,255,0.35), rgba(0,243,255,0.12))',
+            borderBottom: '1px solid rgba(255,255,255,0.06)',
+            display: 'flex', alignItems: 'center', gap: 12,
+            flexShrink: 0,
+          }}>
+            <div style={{
+              width: 42, height: 42, borderRadius: 14,
               background: 'linear-gradient(135deg, #7b2fff, #00f3ff)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '1.3rem', flexShrink: 0,
               boxShadow: '0 0 20px rgba(0,243,255,0.4)',
-              fontSize: '1.3rem',
               border: '1px solid rgba(0,243,255,0.3)',
             }}>🧠</div>
-            <div>
-              <div className="chatbot-title" style={{ fontFamily: 'Orbitron', fontSize: '0.85rem', letterSpacing: '0.05em' }}>NeuroGamer <span style={{ color: 'var(--cyan)', fontSize: '0.7rem' }}>AI</span></div>
-              <div className="chatbot-status">Online & Ready</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: 'Orbitron', fontSize: '0.85rem', fontWeight: 700, marginBottom: 2 }}>
+                NeuroGamer <span style={{ color: 'var(--cyan)', fontSize: '0.7rem' }}>AI</span>
+              </div>
+              <div style={{
+                fontSize: '0.72rem', color: '#10B981',
+                display: 'flex', alignItems: 'center', gap: 4,
+                fontFamily: 'Rajdhani', fontWeight: 600,
+              }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', animation: 'live-pulse 1.5s ease-in-out infinite', display: 'inline-block' }}/>
+                Online & Ready
+              </div>
             </div>
-            <button onClick={() => {
-              setOpen(false);
-              sessionStorage.setItem('hasSeenIntro', 'true');
-              setMessages(getInitialMessage());
-            }} style={{
-              marginLeft: 'auto', background: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem'
-            }}>✕</button>
+            <button onClick={closeBot} style={{
+              background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
+              color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '0.9rem',
+              borderRadius: 8, width: 32, height: 32, display: 'flex',
+              alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={e => { e.target.style.background = 'rgba(255,45,120,0.2)'; e.target.style.color = '#ff2d78'; }}
+            onMouseLeave={e => { e.target.style.background = 'rgba(255,255,255,0.08)'; e.target.style.color = 'rgba(255,255,255,0.7)'; }}
+            >✕</button>
           </div>
 
-          <div className="chatbot-messages" ref={messagesRef}>
+          {/* Messages */}
+          <div ref={messagesRef} style={{
+            flex: 1, overflowY: 'auto', padding: '16px',
+            display: 'flex', flexDirection: 'column', gap: 10,
+            minHeight: 280, maxHeight: 330,
+          }}>
             {messages.map((msg, i) => (
-              <div key={i} className={`chat-message ${msg.role}`}>
+              <div key={i} style={{ display: 'flex', gap: 8, flexDirection: msg.role === 'user' ? 'row-reverse' : 'row', animation: 'fadeInUp 0.3s ease' }}>
                 {msg.role === 'bot' && (
                   <div style={{
-                    width: 30, height: 30, borderRadius: 10,
+                    width: 28, height: 28, borderRadius: 9, flexShrink: 0,
                     background: 'linear-gradient(135deg, #7b2fff, #00f3ff)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '0.9rem', flexShrink: 0,
-                    boxShadow: '0 0 12px rgba(0,243,255,0.3)',
-                    border: '1px solid rgba(0,243,255,0.2)',
+                    fontSize: '0.85rem', boxShadow: '0 0 10px rgba(0,243,255,0.3)',
                   }}>🧠</div>
                 )}
-                <div
-                  className={`chat-bubble ${msg.role}`}
-                  dangerouslySetInnerHTML={{ __html: formatText(msg.text) }}
-                />
+                <div dangerouslySetInnerHTML={{ __html: formatText(msg.text) }} style={{
+                  padding: '10px 14px', borderRadius: msg.role === 'bot' ? '4px 14px 14px 14px' : '14px 4px 14px 14px',
+                  fontSize: '0.865rem', lineHeight: 1.55, maxWidth: '82%',
+                  background: msg.role === 'bot'
+                    ? 'rgba(123,47,255,0.18)'
+                    : 'linear-gradient(135deg, #7b2fff, #00f3ff)',
+                  border: msg.role === 'bot' ? '1px solid rgba(123,47,255,0.3)' : 'none',
+                  color: '#fff',
+                }} />
               </div>
             ))}
             {loading && (
-              <div className="chat-message">
-                <div style={{
-                  width: 30, height: 30, borderRadius: 10,
-                  background: 'linear-gradient(135deg, #7b2fff, #00f3ff)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.9rem', flexShrink: 0,
-                  boxShadow: '0 0 12px rgba(0,243,255,0.3)',
-                  border: '1px solid rgba(0,243,255,0.2)',
-                }}>🧠</div>
-                <div className="chat-bubble bot" style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <div style={{ width: 28, height: 28, borderRadius: 9, background: 'linear-gradient(135deg, #7b2fff, #00f3ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem', flexShrink: 0 }}>🧠</div>
+                <div style={{ padding: '10px 14px', borderRadius: '4px 14px 14px 14px', background: 'rgba(123,47,255,0.18)', border: '1px solid rgba(123,47,255,0.3)', display: 'flex', gap: 5, alignItems: 'center' }}>
                   {[0,1,2].map(i => (
-                    <div key={i} style={{
-                      width: 7, height: 7, borderRadius: '50%',
-                      background: 'var(--cyan)',
-                      animation: `live-pulse 1.2s ease-in-out ${i*0.2}s infinite`
-                    }}/>
+                    <div key={i} style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--cyan)', animation: `live-pulse 1.2s ease-in-out ${i*0.2}s infinite` }}/>
                   ))}
                 </div>
               </div>
@@ -126,40 +179,73 @@ export default function ChatBot() {
 
           {/* Quick prompts */}
           {messages.length <= 2 && (
-            <div style={{ padding: '0 12px 8px', display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            <div style={{ padding: '0 14px 10px', display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               {QUICK_PROMPTS.map(q => (
                 <button key={q} onClick={() => sendMessage(q)} style={{
-                  padding: '5px 10px', borderRadius: 100,
-                  background: 'rgba(123,47,255,0.15)', border: '1px solid rgba(123,47,255,0.3)',
+                  padding: '5px 11px', borderRadius: 100,
+                  background: 'rgba(0,243,255,0.07)', border: '1px solid rgba(0,243,255,0.2)',
                   color: 'var(--text-secondary)', fontSize: '0.75rem',
                   cursor: 'pointer', transition: 'all 0.2s',
-                  fontFamily: 'Rajdhani, sans-serif', fontWeight: 600
-                }}>{q}</button>
+                  fontFamily: 'Rajdhani', fontWeight: 600,
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,243,255,0.15)'; e.currentTarget.style.color = 'var(--cyan)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,243,255,0.07)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
+                >{q}</button>
               ))}
             </div>
           )}
 
-          <div className="chatbot-input">
+          {/* Input */}
+          <div style={{
+            padding: '12px 14px',
+            borderTop: '1px solid rgba(255,255,255,0.06)',
+            display: 'flex', gap: 8, flexShrink: 0,
+            background: 'rgba(0,0,0,0.2)',
+          }}>
             <input
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKey}
               placeholder="Ask me anything..."
               disabled={loading}
+              style={{
+                flex: 1, padding: '10px 14px',
+                background: 'rgba(255,255,255,0.06)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 10, color: '#fff',
+                fontSize: '0.875rem', outline: 'none',
+                fontFamily: 'Inter',
+                transition: 'border-color 0.2s',
+              }}
+              onFocus={e => { e.target.style.borderColor = 'rgba(0,243,255,0.4)'; }}
+              onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; }}
             />
-            <button className="chatbot-send" onClick={() => sendMessage()} disabled={loading}>
-              ➤
-            </button>
+            <button onClick={() => sendMessage()} disabled={loading} style={{
+              width: 42, height: 42,
+              borderRadius: 10, flexShrink: 0,
+              background: loading ? 'rgba(123,47,255,0.3)' : 'linear-gradient(135deg, #7b2fff, #00f3ff)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '1rem', cursor: loading ? 'not-allowed' : 'pointer',
+              transition: 'all 0.2s',
+              color: '#fff',
+            }}>➤</button>
           </div>
         </div>
       )}
 
-      <button className="chatbot-toggle" onClick={() => setOpen(o => !o)} title="NeuroGamer AI Chat"
-        style={{
-          background: open ? 'linear-gradient(135deg, #ff2d78, #7b2fff)' : 'linear-gradient(135deg, #7b2fff, #00f3ff)',
-          fontSize: open ? '1.4rem' : '1.8rem',
-          transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
-        }}>
+      {/* Toggle Button */}
+      <button id="chatbot-toggle-btn" onClick={() => setOpen(o => !o)} style={{
+        position: 'fixed', bottom: 28, right: 28,
+        width: 62, height: 62, borderRadius: '50%', zIndex: 10000,
+        background: open ? 'linear-gradient(135deg, #ff2d78, #7b2fff)' : 'linear-gradient(135deg, #7b2fff, #00f3ff)',
+        border: 'none', cursor: 'pointer',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: open ? '1.4rem' : '1.8rem',
+        boxShadow: open ? '0 0 30px rgba(255,45,120,0.5)' : '0 0 30px rgba(123,47,255,0.6)',
+        transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
+        animation: open ? 'none' : 'pulse-glow 2.5s ease-in-out infinite',
+      }}
+      title="NeuroGamer AI">
         {open ? '✕' : '🧠'}
       </button>
     </>
