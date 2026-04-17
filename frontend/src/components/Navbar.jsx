@@ -10,7 +10,7 @@ const navLinks = [
   { to: '/', label: '🏠 Home' },
   { to: '/tournaments', label: '🏆 Tournaments' },
   { to: '/leaderboard', label: '📊 Leaderboard' },
-  { to: '/#community', label: '🤝 Community', isAnchor: true },
+  { to: '/community', label: '🤝 Community' },
 ];
 
 export default function Navbar() {

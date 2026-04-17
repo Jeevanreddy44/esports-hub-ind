@@ -93,6 +93,15 @@ export default function Signup() {
           borderRadius: 100,
         }} />
 
+        <button 
+          onClick={() => navigate('/')} 
+          style={{ position: 'absolute', top: 20, right: 20, background: 'rgba(255,255,255,0.05)', border: 'none', color: 'var(--text-muted)', width: 32, height: 32, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', transition: '0.2s', zIndex: 10 }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,45,120,0.2)'; e.currentTarget.style.color = '#ff2d78'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = 'var(--text-muted)'; }}
+        >
+          ✕
+        </button>
+
         <div className="auth-logo" style={{ marginBottom: 32 }}>
           <img src={logo} alt="India Esports Hub" style={{ height: 60, filter: 'drop-shadow(0 0 15px var(--cyan-glow))' }} />
         </div>

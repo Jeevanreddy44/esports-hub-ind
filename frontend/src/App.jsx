@@ -11,6 +11,7 @@ import Tournaments from './pages/Tournaments';
 import TournamentDetail from './pages/TournamentDetail';
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
+import Community from './pages/Community';
 import './index.css';
 
 function ProtectedRoute({ children }) {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/tournaments/:id" element={<TournamentDetail />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/community" element={<Community />} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         </Routes>
         <ChatBot />

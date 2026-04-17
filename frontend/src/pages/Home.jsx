@@ -386,6 +386,30 @@ export default function Home() {
                 </Link>
               </motion.div>
             ))}
+
+            {/* Coming Soon Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: GAMES.length * 0.05 }}
+            >
+              <div
+                className="game-card"
+                style={{
+                  '--game-color': '#FFFFFF', padding: '28px 16px', textAlign: 'center',
+                  background: 'rgba(255,255,255,0.01)', border: '1px dashed rgba(255,255,255,0.2)',
+                  position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: 200,
+                  opacity: 0.7
+                }}
+              >
+                <div style={{ fontSize: '2.5rem', marginBottom: 12, opacity: 0.5 }}>🚧</div>
+                <div style={{ fontFamily: 'Orbitron', fontSize: '0.9rem', fontWeight: 800, color: '#fff', marginBottom: 8 }}>MORE GAMES</div>
+                <div style={{ color: 'var(--text-muted)', fontSize: '0.7rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                  Coming Soon
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -596,130 +620,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── COMMUNITY SECTION ── */}
-      <section id="community" className="section">
-        <div className="container">
-          <h2 className="section-title anim-fade-up"><span className="gradient-text">🤝 Join the Community</span></h2>
-          <p className="section-subtitle anim-fade-up delay-100">
-            Connect with 150,000+ Indian gamers across platforms — get tournament alerts, match tips, and team-ups
-          </p>
-
-          {/* Social Platform Cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20, marginBottom: 60 }}>
-            {COMMUNITY_CHANNELS.map((ch, i) => (
-              <motion.a
-                key={ch.name}
-                href={ch.link}
-                target="_blank"
-                rel="noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                style={{ display: 'block', textDecoration: 'none' }}
-              >
-                <div style={{
-                  padding: '28px 24px',
-                  background: 'rgba(255,255,255,0.03)',
-                  border: `1px solid ${ch.color}30`,
-                  borderRadius: 24, textAlign: 'center',
-                  transition: 'all 0.3s ease',
-                  boxShadow: `0 0 0 0 ${ch.color}20`,
-                }}
-                  onMouseEnter={e => e.currentTarget.style.boxShadow = `0 20px 40px ${ch.color}20, 0 0 0 1px ${ch.color}40`}
-                  onMouseLeave={e => e.currentTarget.style.boxShadow = `0 0 0 0 ${ch.color}20`}
-                >
-                  <div style={{
-                    width: 64, height: 64, borderRadius: '50%', margin: '0 auto 16px',
-                    background: `${ch.color}15`, border: `2px solid ${ch.color}40`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '1.8rem', boxShadow: `0 0 20px ${ch.color}20`,
-                  }}>{ch.icon}</div>
-                  <div style={{ fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1rem', color: ch.color, marginBottom: 6 }}>{ch.name}</div>
-                  <div style={{ fontFamily: 'Rajdhani', fontWeight: 900, fontSize: '1.4rem', color: '#fff', marginBottom: 4 }}>{ch.members}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani' }}>{ch.desc}</div>
-                </div>
-              </motion.a>
-            ))}
-          </div>
-
-          {/* Top Clans */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'start' }} className="community-grid">
-            <div>
-              <h3 style={{ fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1.3rem', marginBottom: 8, color: '#fff' }}>
-                ⚔️ Top Clans & Orgs
-              </h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: 24 }}>
-                India's most competitive esports organizations
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {TOP_CLANS.map((clan, i) => (
-                  <motion.div
-                    key={clan.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.08 }}
-                  >
-                    <div style={{
-                      display: 'flex', alignItems: 'center', gap: 14,
-                      padding: '14px 20px', borderRadius: 16,
-                      background: 'rgba(255,255,255,0.03)', border: `1px solid ${clan.color}20`,
-                      transition: 'all 0.3s ease',
-                    }}>
-                      <div style={{
-                        width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-                        background: `${clan.color}15`, border: `1px solid ${clan.color}40`,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem',
-                      }}>{clan.emoji}</div>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontFamily: 'Rajdhani', fontWeight: 800, fontSize: '1rem', color: clan.color }}>{clan.name}</div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{clan.game}</div>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontFamily: 'Orbitron', fontWeight: 900, fontSize: '1rem', color: '#ffd60a' }}>{clan.wins}</div>
-                        <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 700 }}>WINS</div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* Community Stats + CTA */}
-            <div>
-              <h3 style={{ fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1.3rem', marginBottom: 8, color: '#fff' }}>
-                📊 Community Pulse
-              </h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: 24 }}>
-                Live activity across the India Esports Hub ecosystem
-              </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 28 }}>
-                {[
-                  { label: 'Active Players Today', value: '3,241', icon: '👥', color: 'var(--cyan)' },
-                  { label: 'Matches Played', value: '18,500+', icon: '⚔️', color: 'var(--purple)' },
-                  { label: 'Prize Distributed', value: '₹2.1 Cr', icon: '💰', color: '#ffd60a' },
-                  { label: 'States Covered', value: '28 / 28', icon: '🗺️', color: 'var(--green)' },
-                  { label: 'Active Clans', value: '412', icon: '🏛️', color: 'var(--pink)' },
-                  { label: 'Avg. Prize/Win', value: '₹18,400', icon: '🏆', color: '#FF9500' },
-                ].map(stat => (
-                  <div key={stat.label} className="glass-card" style={{
-                    padding: '16px 18px', borderRadius: 16, border: `1px solid ${stat.color}20`,
-                  }}>
-                    <div style={{ fontSize: '1.4rem', marginBottom: 6 }}>{stat.icon}</div>
-                    <div style={{ fontFamily: 'Orbitron', fontWeight: 900, fontSize: '1rem', color: stat.color }}>{stat.value}</div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 600, marginTop: 2 }}>{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-              <Link to="/signup" className="btn btn-primary" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                🚀 Join the Community
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ── CTA BANNER ── */}
       <section className="section" style={{ background: 'rgba(123,47,255,0.03)' }}>
