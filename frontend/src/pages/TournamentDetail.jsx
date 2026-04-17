@@ -196,7 +196,9 @@ export default function TournamentDetail() {
               </div>
               <div>
                 <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 700, textTransform: 'uppercase', mb: 5 }}>📅 Launch Date</div>
-                <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '1.4rem', color: '#fff' }}>{tournament.start_date}</div>
+                <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '1.4rem', color: '#fff' }}>
+                  {tournament.start_date ? new Date(tournament.start_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : 'TBD'}
+                </div>
               </div>
               <div>
                 <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 700, textTransform: 'uppercase', mb: 5 }}>📍 Mode</div>

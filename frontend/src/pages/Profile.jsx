@@ -147,6 +147,7 @@ export default function Profile() {
                 { label: 'LIVE COMBAT', value: liveReg, icon: '🔴', color: 'var(--pink)' },
                 { label: 'MISSION READY', value: upcomingReg, icon: '⏳', color: '#ffd60a' },
                 { label: 'LEGACY BATTLES', value: pastReg, icon: '🏆', color: '#10B981' },
+                { label: 'SAVED', value: bookmarks.length, icon: '⭐', color: 'var(--purple)' },
               ].map(s => (
                 <div key={s.label} className="shape-circle" style={{
                   width: 120, height: 120,
@@ -213,7 +214,9 @@ export default function Profile() {
                           <div style={{ fontFamily: 'Orbitron', fontWeight: 800, fontSize: '1rem', color: '#fff', marginBottom: 2 }}>{t.title}</div>
                           <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
                             <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 700 }}>{t.game}</span>
-                            <span style={{ color: 'var(--cyan)', fontSize: '0.85rem', fontFamily: 'Rajdhani', fontWeight: 800 }}>{t.start_date}</span>
+                            <span style={{ color: 'var(--cyan)', fontSize: '0.85rem', fontFamily: 'Rajdhani', fontWeight: 800 }}>
+                              {t.start_date ? new Date(t.start_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'TBD'}
+                            </span>
                           </div>
                         </div>
 
