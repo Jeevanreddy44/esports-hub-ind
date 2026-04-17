@@ -1404,3 +1404,96 @@ footer {
   z-index: 0;
   opacity: 0.4;
 }
+
+/* ===== COMMUNITY SECTION ===== */
+.community-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .community-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* ===== HOW IT WORKS STEP CARDS ===== */
+.step-card {
+  text-align: center;
+  padding: 36px 28px;
+  height: 100%;
+  transition: var(--transition);
+}
+.step-card:hover {
+  transform: translateY(-6px);
+}
+
+/* ===== STREAMER CARDS ===== */
+.streamer-card {
+  transition: var(--transition);
+}
+.streamer-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* ===== TESTIMONIAL DOTS ===== */
+.testimonial-nav-dot {
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+/* ===== ENHANCED FOOTER ===== */
+footer a:hover {
+  color: var(--cyan);
+}
+
+/* ===== CARD GLOW BREATHE ===== */
+@keyframes card-glow-breathe {
+  0%, 100% { box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+  50% { box-shadow: 0 4px 24px rgba(0,0,0,0.3), 0 0 20px rgba(0,243,255,0.04); }
+}
+
+/* ===== GREEN VAR ===== */
+:root {
+  --green: #00ff88;
+  --yellow: #ffd60a;
+}
+
+/* ===== RESPONSIVE HERO ===== */
+@media (max-width: 768px) {
+  .hero-visual-container { display: none; }
+  .hero-btns { flex-direction: column; }
+  .hero-btns .btn { width: 100%; justify-content: center; }
+  .hero-stats { gap: 12px; }
+  .hero-stat { width: 80px; height: 80px; }
+  .hero-stat-value { font-size: 0.9rem !important; }
+}
+
+/* ===== RESPONSIVE GAMES GRID ===== */
+@media (max-width: 540px) {
+  .games-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+}
+
+/* ===== RESPONSIVE SECTION PADDING ===== */
+@media (max-width: 768px) {
+  .section { padding: 50px 0; }
+  .section-title { font-size: 1.6rem; }
+  .section-subtitle { font-size: 0.95rem; margin-bottom: 32px; }
+}
+
+/* ===== VAR FIXES ===== */
+:root {
+  --bg-card-hover: rgba(18, 18, 50, 0.85);
+  --glow-cyan: 0 0 30px rgba(0,243,255,0.4), 0 0 60px rgba(0,243,255,0.2);
+  --glow-purple: 0 0 30px rgba(123,47,255,0.4), 0 0 60px rgba(123,47,255,0.2);
+  --glow-pink: 0 0 30px rgba(255,45,120,0.4);
+  --border: rgba(255, 255, 255, 0.08);
+}
