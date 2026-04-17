@@ -11,25 +11,27 @@ A modern esports platform for Indian gamers to explore tournaments, rankings, an
 - Persistent Data Storage
 
 ## ⚙️ Tech Stack
-- Frontend & Backend: AI-assisted (Antigravity)
-- Deployment: Vercel
-- UI/UX: Custom designed
+- **Frontend**: React (Vite) + Framer Motion
+- **Backend**: Node.js + Express + MongoDB/Supabase
+- **Deployment**:
+  - **Live Site**: [Vercel](https://esports-hub-ind.vercel.app)
+  - **API Server**: [Railway](https://railway.app)
+- **UI/UX**: Custom Organic Design System (Ovals, Capsules, Hexagons)
 
-## 🤖 About AI Usage
-This project was built using **Antigravity (AI-assisted development tool)**.
+## 🤖 AI-Accelerated Development
+This project was built with **Antigravity**, demonstrating the power of agentic AI to create premium, production-ready applications through pair programming.
 
-However, the core work involved:
-- Designing the application structure
-- Defining features and workflows
-- Customizing UI/UX
-- Debugging and deploying the application
+## 🌐 Live Platform
+The application is live and accessible at:
+👉 **[https://esports-hub-ind.vercel.app](https://esports-hub-ind.vercel.app)**
 
-This project demonstrates how AI can be used as a **development accelerator**, not a replacement for problem-solving and design thinking.
+## 📌 Development Status
+- [x] Organic UI/UX Overhaul
+- [x] Advanced Tournament Filters
+- [x] Real-time Notifications Bell
+- [x] Persistent Bookmarking (Saved Battles)
+- [x] User Profiles & Identity Orbs
+- [ ] Tournament Bracket System (Next Phase)
 
-## 🌐 Live Demo
-https://esports-hub-ind.vercel.app
-
-## 📌 Future Improvements
-- User authentication & profiles
-- Tournament registration system
-- Real-time match updates
+---
+© 2026 Esports Hub India. All rights reserved.
