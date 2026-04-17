@@ -6,7 +6,7 @@ import Skeleton from '../components/common/Skeleton';
 import CountdownTimer from '../components/CountdownTimer';
 import { GameIcon } from '../utils/gameLogos';
 
-const GAMES = ['all', 'BGMI', 'Valorant', 'Free Fire Max', 'CS2', 'MLBB', 'Tekken 8', 'Pokemon Unite', 'Call of Duty Mobile', 'Clash Royale'];
+const GAMES = ['all', 'Valorant', 'BGMI', 'MLBB', 'Free Fire Max', 'Pokemon Unite', 'Minecraft', 'CS2', 'Call of Duty Mobile', 'Tekken 8', 'Clash Royale', 'FC Mobile'];
 const STATUSES = ['all', 'live', 'upcoming', 'past'];
 
 function TournamentCard({ t, isSkeleton }) {

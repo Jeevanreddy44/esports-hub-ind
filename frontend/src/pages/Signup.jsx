@@ -14,7 +14,7 @@ const INDIAN_STATES = [
   'Uttarakhand', 'West Bengal', 'Delhi', 'Jammu & Kashmir', 'Ladakh',
 ];
 
-const GAMES_LIST = ['BGMI', 'Valorant', 'Free Fire Max', 'CS2', 'MLBB', 'Tekken 8', 'Pokemon Unite', 'Call of Duty Mobile', 'Clash Royale'];
+const GAMES_LIST = ['Valorant', 'BGMI', 'MLBB', 'Free Fire Max', 'Pokemon Unite', 'Minecraft', 'CS2', 'Call of Duty Mobile', 'Tekken 8', 'Clash Royale', 'FC Mobile'];
 
 const STEPS = ['Account Info', 'Gaming Profile', 'Ready!'];
 
@@ -103,7 +103,7 @@ export default function Signup() {
         </button>
 
         <div className="auth-logo" style={{ marginBottom: 32 }}>
-          <img src={logo} alt="India Esports Hub" style={{ height: 60, filter: 'drop-shadow(0 0 15px var(--cyan-glow))' }} />
+          <img src={logo} alt="Esports Hub" style={{ height: 60, filter: 'drop-shadow(0 0 15px var(--cyan-glow))' }} />
         </div>
 
         {/* Step indicator */}

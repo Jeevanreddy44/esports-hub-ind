@@ -4,7 +4,7 @@ import { leaderboardAPI } from '../services/api';
 import Skeleton from '../components/common/Skeleton';
 import { GameIcon } from '../utils/gameLogos';
 
-const GAMES = ['all', 'BGMI', 'Valorant', 'Free Fire Max', 'CS2', 'MLBB', 'Tekken 8', 'Pokemon Unite', 'Call of Duty Mobile', 'Clash Royale'];
+const GAMES = ['all', 'Valorant', 'BGMI', 'MLBB', 'Free Fire Max', 'Pokemon Unite', 'Minecraft', 'CS2', 'Call of Duty Mobile', 'Tekken 8', 'Clash Royale', 'FC Mobile'];
 
 const RankBadge = ({ rank }) => {
   const colors = {
@@ -77,8 +77,10 @@ const PodiumCard = ({ player, rank, gameIcon }) => {
         <div style={{ fontFamily: 'Orbitron', fontWeight: 800, fontSize: isFirst ? '1.4rem' : '1.1rem', color: '#fff', marginBottom: 6 }}>
           {player.player_name}
         </div>
-        <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: 20 }}>
-          {player.state}
+        <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+          <span>{player.state}</span>
+          <span style={{ color: 'rgba(255,255,255,0.2)' }}>•</span>
+          <span style={{ color: color, fontSize: '0.8rem' }}>{player.main_game || 'Gamer'}</span>
         </div>
 
         <div className="shape-pill" style={{ 

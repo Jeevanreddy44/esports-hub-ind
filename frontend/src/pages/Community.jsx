@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaDiscord, FaInstagram, FaTelegramPlane, FaYoutube, FaUsers, FaTrophy, FaHandshake } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 
 const STATS = [
   { icon: <FaUsers />, label: 'Active Members', value: '48K+', color: '#5865F2' },
@@ -44,28 +45,39 @@ export default function Community() {
         
         <div className="grid-2" style={{ gap: 30, marginBottom: 60 }}>
           <a href="#" className="glass-card shape-soft-hex anim-fade-up" style={{ padding: 32, display: 'flex', alignItems: 'center', gap: 24, textDecoration: 'none', transition: '0.3s' }}>
-            <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'rgba(88,101,242,0.15)', color: '#5865F2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
-              <FaDiscord />
-            </div>
-            <div>
-              <h3 style={{ fontFamily: 'Orbitron', color: '#fff', fontSize: '1.4rem', marginBottom: 6 }}>Discord Server</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5 }}>Join our main communication hub. Daily scrims, voice channels, and live support.</p>
-              <div style={{ color: '#5865F2', fontFamily: 'Rajdhani', fontWeight: 800, marginTop: 12, fontSize: '0.85rem' }}>JOIN 48K+ MEMBERS →</div>
-            </div>
-          </a>
-
-          <a href="#" className="glass-card shape-soft-hex anim-fade-up delay-100" style={{ padding: 32, display: 'flex', alignItems: 'center', gap: 24, textDecoration: 'none', transition: '0.3s' }}>
             <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'rgba(255,45,120,0.15)', color: '#ff2d78', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
               <FaInstagram />
             </div>
             <div>
               <h3 style={{ fontFamily: 'Orbitron', color: '#fff', fontSize: '1.4rem', marginBottom: 6 }}>Instagram</h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5 }}>Follow us for daily tournament highlights, clutch clips, and important announcements.</p>
-              <div style={{ color: '#ff2d78', fontFamily: 'Rajdhani', fontWeight: 800, marginTop: 12, fontSize: '0.85rem' }}>FOLLOW @ESPORTS_HUB_IND →</div>
+              <div style={{ color: '#ff2d78', fontFamily: 'Rajdhani', fontWeight: 800, marginTop: 12, fontSize: '0.85rem' }}>FOLLOW @ESPORTS_HUB →</div>
+            </div>
+          </a>
+
+          <a href="#" className="glass-card shape-soft-hex anim-fade-up delay-100" style={{ padding: 32, display: 'flex', alignItems: 'center', gap: 24, textDecoration: 'none', transition: '0.3s' }}>
+            <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'rgba(255,0,0,0.15)', color: '#FF0000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
+              <FaYoutube />
+            </div>
+            <div>
+              <h3 style={{ fontFamily: 'Orbitron', color: '#fff', fontSize: '1.4rem', marginBottom: 6 }}>YouTube Channel</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5 }}>Watch live streams of grand finals, professional casting, and advanced tip videos.</p>
+              <div style={{ color: '#FF0000', fontFamily: 'Rajdhani', fontWeight: 800, marginTop: 12, fontSize: '0.85rem' }}>SUBSCRIBE →</div>
             </div>
           </a>
 
           <a href="#" className="glass-card shape-soft-hex anim-fade-up delay-200" style={{ padding: 32, display: 'flex', alignItems: 'center', gap: 24, textDecoration: 'none', transition: '0.3s' }}>
+            <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
+              <FaXTwitter />
+            </div>
+            <div>
+              <h3 style={{ fontFamily: 'Orbitron', color: '#fff', fontSize: '1.4rem', marginBottom: 6 }}>X</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5 }}>Get the latest updates, breaking news, and interact with pro players directly on X.</p>
+              <div style={{ color: '#fff', fontFamily: 'Rajdhani', fontWeight: 800, marginTop: 12, fontSize: '0.85rem' }}>FOLLOW ON X →</div>
+            </div>
+          </a>
+
+          <a href="#" className="glass-card shape-soft-hex anim-fade-up delay-300" style={{ padding: 32, display: 'flex', alignItems: 'center', gap: 24, textDecoration: 'none', transition: '0.3s' }}>
             <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'rgba(0,136,204,0.15)', color: '#0088cc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
               <FaTelegramPlane />
             </div>
@@ -76,14 +88,14 @@ export default function Community() {
             </div>
           </a>
 
-          <a href="#" className="glass-card shape-soft-hex anim-fade-up delay-300" style={{ padding: 32, display: 'flex', alignItems: 'center', gap: 24, textDecoration: 'none', transition: '0.3s' }}>
-            <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'rgba(255,0,0,0.15)', color: '#FF0000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
-              <FaYoutube />
+          <a href="#" className="glass-card shape-soft-hex anim-fade-up delay-300" style={{ padding: 32, display: 'flex', alignItems: 'center', gap: 24, textDecoration: 'none', transition: '0.3s', gridColumn: '1 / -1', maxWidth: '600px', margin: '0 auto' }}>
+            <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'rgba(88,101,242,0.15)', color: '#5865F2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
+              <FaDiscord />
             </div>
             <div>
-              <h3 style={{ fontFamily: 'Orbitron', color: '#fff', fontSize: '1.4rem', marginBottom: 6 }}>YouTube Channel</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5 }}>Watch live streams of grand finals, professional casting, and advanced tip videos.</p>
-              <div style={{ color: '#FF0000', fontFamily: 'Rajdhani', fontWeight: 800, marginTop: 12, fontSize: '0.85rem' }}>SUBSCRIBE →</div>
+              <h3 style={{ fontFamily: 'Orbitron', color: '#fff', fontSize: '1.4rem', marginBottom: 6 }}>Discord Server</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5 }}>Join our main communication hub. Daily scrims, voice channels, and live support.</p>
+              <div style={{ color: '#5865F2', fontFamily: 'Rajdhani', fontWeight: 800, marginTop: 12, fontSize: '0.85rem' }}>JOIN 48K+ MEMBERS →</div>
             </div>
           </a>
         </div>

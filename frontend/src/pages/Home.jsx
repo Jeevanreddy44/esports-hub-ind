@@ -9,15 +9,17 @@ import { GameIcon } from '../utils/gameLogos';
 
 /* ─────────────── DATA ─────────────── */
 const GAMES = [
-  { name: 'BGMI', color: '#FF6B35', players: '12K+', tournaments: 38 },
   { name: 'Valorant', color: '#FF4655', players: '8K+', tournaments: 24 },
-  { name: 'Free Fire Max', color: '#FF9500', players: '15K+', tournaments: 42 },
-  { name: 'CS2', color: '#F59E0B', players: '5K+', tournaments: 16 },
+  { name: 'BGMI', color: '#FF6B35', players: '12K+', tournaments: 38 },
   { name: 'MLBB', color: '#06B6D4', players: '6K+', tournaments: 20 },
-  { name: 'Tekken 8', color: '#EC4899', players: '3K+', tournaments: 12 },
+  { name: 'Free Fire Max', color: '#FF9500', players: '15K+', tournaments: 42 },
   { name: 'Pokemon Unite', color: '#8B5CF6', players: '2K+', tournaments: 9 },
+  { name: 'Minecraft', color: '#10B981', players: '18K+', tournaments: 10 },
+  { name: 'CS2', color: '#F59E0B', players: '5K+', tournaments: 16 },
   { name: 'Call of Duty Mobile', color: '#10B981', players: '9K+', tournaments: 28 },
+  { name: 'Tekken 8', color: '#EC4899', players: '3K+', tournaments: 12 },
   { name: 'Clash Royale', color: '#3B82F6', players: '4K+', tournaments: 14 },
+  { name: 'FC Mobile', color: '#2563EB', players: '1.5K+', tournaments: 5 },
 ];
 
 const STATS = [
@@ -28,14 +30,14 @@ const STATS = [
 ];
 
 const TICKER_ITEMS = [
-  '🏆 BGMI India Masters LIVE NOW — ₹5 Lakh Prize Pool',
+  '🏆 BGMI Masters LIVE NOW — ₹5 Lakh Prize Pool',
   '🔥 Free Fire Max Grand Prix — Registration Open — 1500 Teams Signed Up!',
-  '⚡ Valorant Champions India — Only 8 Slots Left!',
-  '🎮 CS2 India Open — May 10-12, 2026 — New Delhi Gaming Arena',
+  '⚡ Valorant Champions — Only 8 Slots Left!',
+  '🎮 CS2 Open — May 10-12, 2026 — Gaming Arena',
   '🔮 Pokemon Unite Championship — Season 4 Results Out!',
-  '👊 Tekken 8 India Clash — Register Before April 25',
+  '👊 Tekken 8 Clash — Register Before April 25',
   '🪖 CODM Masters Q2 — ₹2 Lakh Prize Pool Opening Soon',
-  '📊 Leaderboard Update: Scout_GG leads BGMI All-India Rankings!',
+  '📊 Leaderboard Update: Scout_GG leads BGMI Rankings!',
 ];
 
 // Removed GAME_ICONS object
@@ -275,7 +277,7 @@ export default function Home() {
           <div className="grid-2" style={{ gap: 60, alignItems: 'center' }}>
             <div className="hero-content">
               <div className="hero-tag anim-fade-up delay-100" style={{ background: 'rgba(0,243,255,0.1)', borderColor: 'rgba(0,243,255,0.3)', color: 'var(--cyan)' }}>
-                ⚡ India's #1 Esports Platform — 50,000+ Players Strong
+                ⚡ #1 Esports Platform — 50,000+ Players Strong
               </div>
               <h1 className="hero-title anim-fade-up delay-200">
                 <span className="gradient-text" style={{ background: 'linear-gradient(135deg, var(--cyan), var(--purple), var(--pink))', WebkitBackgroundClip: 'text' }}>DOMINATE</span>
@@ -283,7 +285,7 @@ export default function Home() {
                 THE ARENA
               </h1>
               <p className="hero-description anim-fade-up delay-300">
-                India's fastest-growing competitive gaming platform. Discover tournaments across <strong>9 titles</strong>, compete with pros from <strong>28 states</strong>, win prizes up to <strong>₹5 Lakhs</strong> — and get AI-powered match prep from <strong>NeuroGamer</strong>. 🧠🔥
+                Fastest-growing competitive gaming platform. Discover tournaments across <strong>9 titles</strong>, win prizes up to <strong>₹5 Lakhs</strong> — and get AI-powered match prep from <strong>NeuroGamer</strong>. 🧠🔥
               </p>
               <div style={{ display: 'flex', gap: 16, marginBottom: 48, flexWrap: 'wrap' }} className="anim-fade-up delay-400 hero-btns">
                 <Link to="/tournaments" className="btn btn-primary btn-lg" style={{ background: 'linear-gradient(135deg, var(--cyan), var(--purple))' }}>
@@ -325,7 +327,7 @@ export default function Home() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 margin: '0 auto', position: 'relative',
               }} className="anim-float">
-                <img src={logo} alt="Esports Hub India" style={{ width: '75%', filter: 'drop-shadow(0 0 40px rgba(0,243,255,0.5))' }} />
+                <img src={logo} alt="Esports Hub" style={{ width: '75%', filter: 'drop-shadow(0 0 40px rgba(0,243,255,0.5))' }} />
                 {['BGMI', 'Valorant', 'CS2', 'Free Fire Max'].map((game, i) => (
                   <div key={i} style={{
                     position: 'absolute', width: 50, height: 50, borderRadius: 14,
@@ -348,7 +350,7 @@ export default function Home() {
         <div className="container">
           <h2 className="section-title anim-fade-up"><span className="gradient-text">Featured Games</span></h2>
           <p className="section-subtitle anim-fade-up delay-100">
-            Compete across India's most popular esports titles — from battle royale to fighting games
+            Compete across most popular esports titles — from battle royale to fighting games
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 24 }}>
             {GAMES.map((g, i) => (
@@ -419,7 +421,7 @@ export default function Home() {
         <section className="section">
           <div className="container">
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8 }}>
-              <h2 className="section-title"><span className="gradient-text">🔴 Live Tournaments</span></h2>
+              <h2 className="section-title"><span className="gradient-text">Live Tournaments</span></h2>
               <span className="badge badge-live">LIVE</span>
             </div>
             <p className="section-subtitle">Happening right now — jump in before slots close!</p>
@@ -637,7 +639,7 @@ export default function Home() {
               Ready to <span className="gradient-text">Compete?</span>
             </h2>
             <p style={{ color: 'var(--text-secondary)', maxWidth: 560, margin: '0 auto 32px', lineHeight: 1.85, fontSize: '1.05rem' }}>
-              Join <strong>50,000+ Indian gamers</strong> already competing. Register for tournaments, win prizes up to <strong>₹5 Lakhs</strong>, climb the leaderboard, and make your mark in Indian esports history!
+              Join <strong>50,000+ gamers</strong> already competing. Register for tournaments, win prizes up to <strong>₹5 Lakhs</strong>, climb the leaderboard, and make your mark in esports history!
             </p>
             <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link to="/signup" className="btn btn-primary btn-lg">Create Account 🚀</Link>
@@ -654,9 +656,9 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 40, marginBottom: 48 }}>
             {/* Brand */}
             <div style={{ gridColumn: 'span 1' }}>
-              <img src={logo} alt="India Esports Hub" style={{ height: 48, marginBottom: 16, filter: 'drop-shadow(0 0 8px rgba(0,243,255,0.3))' }} />
+              <img src={logo} alt="Esports Hub" style={{ height: 48, marginBottom: 16, filter: 'drop-shadow(0 0 8px rgba(0,243,255,0.3))' }} />
               <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', lineHeight: 1.8, marginBottom: 20 }}>
-                India's premier esports platform connecting players, tournaments, and communities across all 28 states.
+                Premier esports platform connecting players, tournaments, and communities.
               </p>
               {/* Social icons */}
               <div style={{ display: 'flex', gap: 10 }}>
@@ -745,7 +747,7 @@ export default function Home() {
           {/* Bottom row */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
             <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontFamily: 'Rajdhani', fontWeight: 600 }}>
-              © {new Date().getFullYear()} India Esports Hub · All Rights Reserved
+              © {new Date().getFullYear()} Esports Hub · All Rights Reserved
             </div>
             <div style={{ color: 'var(--text-muted)', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: 6 }}>
               Proudly built in India 🇮🇳 · For Indian gamers, by Indian gamers
