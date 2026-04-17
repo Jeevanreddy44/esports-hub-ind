@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 import { notificationAPI } from '../services/api';
 import logo from '../assets/logo_final.png';
@@ -8,6 +10,7 @@ const navLinks = [
   { to: '/', label: '🏠 Home' },
   { to: '/tournaments', label: '🏆 Tournaments' },
   { to: '/leaderboard', label: '📊 Leaderboard' },
+  { to: '/#community', label: '🤝 Community', isAnchor: true },
 ];
 
 export default function Navbar() {

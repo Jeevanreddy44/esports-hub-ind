@@ -600,7 +600,7 @@ export default function Home() {
       </section>
 
       {/* ── COMMUNITY SECTION ── */}
-      <section className="section">
+      <section id="community" className="section">
         <div className="container">
           <h2 className="section-title anim-fade-up"><span className="gradient-text">🤝 Join the Community</span></h2>
           <p className="section-subtitle anim-fade-up delay-100">
