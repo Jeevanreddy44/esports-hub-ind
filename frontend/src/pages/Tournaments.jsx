@@ -22,7 +22,7 @@ function TournamentCard({ t, isSkeleton }) {
   }
 
   const pct = t.slots > 0 ? Math.round((t.slots_filled / t.slots) * 100) : 0;
-  const  const accentColor = t.banner_color || '#7b2fff';
+  const accentColor = t.banner_color || '#7b2fff';
 
   return (
     <motion.div
@@ -85,12 +85,6 @@ function TournamentCard({ t, isSkeleton }) {
               {t.status === 'past' ? 'RESULTS →' : 'JOIN ARENA ⚔️'}
             </div>
           </div>
-        </div>
-      </Link>
-    </motion.div>
-  );
-}
-         </div>
         </div>
       </Link>
     </motion.div>
