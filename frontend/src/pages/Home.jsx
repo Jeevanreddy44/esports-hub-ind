@@ -25,10 +25,10 @@ const GAMES = [
 ];
 
 const STATS = [
-  { value: '50K+', label: 'Players', color: 'var(--cyan)', icon: <FaUsers /> },
+  { value: '50K+', label: 'Players', color: '#00f3ff', icon: <FaUsers /> },
   { value: '₹2Cr+', label: 'Prize Pool', color: '#ffd60a', icon: <FaTrophy /> },
-  { value: '200+', label: 'Tournaments', color: 'var(--purple)', icon: <FaGamepad /> },
-  { value: '28', label: 'States', color: 'var(--green)', icon: <FaMapMarkedAlt /> },
+  { value: '200+', label: 'Tournaments', color: '#7b2fff', icon: <FaGamepad /> },
+  { value: '28', label: 'States', color: '#00ff88', icon: <FaMapMarkedAlt /> },
 ];
 
 const TICKER_ITEMS = [
@@ -303,7 +303,7 @@ export default function Home() {
                 {STATS.map(s => (
                   <div key={s.label} className="hero-stat shape-pill" style={{
                     padding: '12px 24px',
-                    background: 'rgba(13,13,35,0.6)',
+                    background: `linear-gradient(135deg, rgba(13,13,35,0.8), ${s.color}15)`,
                     border: `1px solid ${s.color}33`,
                     display: 'flex', alignItems: 'center', gap: 12,
                     boxShadow: `0 8px 24px rgba(0,0,0,0.4), 0 0 15px ${s.color}15`,

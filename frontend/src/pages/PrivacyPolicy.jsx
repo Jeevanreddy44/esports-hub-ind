@@ -1,9 +1,15 @@
 import { motion } from 'framer-motion';
+import { FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 export default function PrivacyPolicy() {
+  const navigate = useNavigate();
   return (
-    <div className="page" style={{ paddingTop: 100, paddingBottom: 100, minHeight: '100vh', background: 'var(--bg-primary)' }}>
-      <div className="container" style={{ maxWidth: 800 }}>
+    <div className="page" style={{ paddingTop: 100, paddingBottom: 100, minHeight: '100vh', background: 'var(--bg-primary)', position: 'relative' }}>
+      <button onClick={() => navigate(-1)} className="btn btn-secondary shape-pill" style={{ position: 'absolute', top: 100, left: '5%', zIndex: 10, display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px' }}>
+        <FaArrowLeft /> Back
+      </button>
+      <div className="container" style={{ maxWidth: 800, marginTop: 40 }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="section-title" style={{ marginBottom: 40 }}>Privacy <span className="gradient-text">Policy</span></h1>
           

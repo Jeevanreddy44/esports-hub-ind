@@ -148,13 +148,13 @@ export default function Signup() {
               </div>
               <div className="form-group" style={{ marginBottom: 20 }}>
                 <label className="form-label" htmlFor="signup-email" style={{ marginLeft: 20, display: 'flex', alignItems: 'center', gap: 6 }}><FaEnvelope style={{ fontSize: '0.8rem' }} /> Email Address</label>
-                <input id="signup-email" name="email" className="form-input shape-pill" type="email" placeholder="Gladiator@arena.com" value={form.email}
+                <input id="signup-email" name="email" className="form-input shape-pill" type="email" placeholder="Enter Email" value={form.email}
                   onChange={e => setForm(p => ({ ...p, email: e.target.value }))} style={{ paddingLeft: 28 }} />
               </div>
               <div className="form-group" style={{ marginBottom: 20 }}>
                 <label className="form-label" htmlFor="signup-password" style={{ marginLeft: 20, display: 'flex', alignItems: 'center', gap: 6 }}><FaLock style={{ fontSize: '0.8rem' }} /> Secret Key</label>
                 <div style={{ position: 'relative' }}>
-                  <input id="signup-password" name="password" className="form-input shape-pill" type={show ? 'text' : 'password'} placeholder="Min 8 characters"
+                  <input id="signup-password" name="password" className="form-input shape-pill" type={show ? 'text' : 'password'} placeholder="Enter Password"
                     value={form.password} onChange={e => setForm(p => ({ ...p, password: e.target.value }))} style={{ paddingLeft: 28, paddingRight: 56 }} />
                   <button type="button" onClick={() => setShow(s => !s)} style={{
                     position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)',

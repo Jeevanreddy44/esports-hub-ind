@@ -1,11 +1,15 @@
 import { motion } from 'framer-motion';
-import { FaGamepad, FaUsers, FaTrophy, FaArrowRight } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { FaGamepad, FaUsers, FaTrophy, FaArrowRight, FaArrowLeft } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function About() {
+  const navigate = useNavigate();
   return (
-    <div className="page" style={{ paddingTop: 100, paddingBottom: 100, minHeight: '100vh', background: 'var(--bg-primary)' }}>
-      <div className="container" style={{ maxWidth: 900 }}>
+    <div className="page" style={{ paddingTop: 100, paddingBottom: 100, minHeight: '100vh', background: 'var(--bg-primary)', position: 'relative' }}>
+      <button onClick={() => navigate(-1)} className="btn btn-secondary shape-pill" style={{ position: 'absolute', top: 100, left: '5%', zIndex: 10, display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px' }}>
+        <FaArrowLeft /> Back
+      </button>
+      <div className="container" style={{ maxWidth: 900, marginTop: 40 }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center" style={{ marginBottom: 60 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', padding: '6px 16px', borderRadius: 100, background: 'rgba(0,243,255,0.1)', border: '1px solid rgba(0,243,255,0.3)', fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.8rem', color: 'var(--cyan)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 16 }}>
             Our Mission

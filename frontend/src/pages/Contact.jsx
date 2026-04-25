@@ -1,10 +1,15 @@
 import { motion } from 'framer-motion';
-import { FaEnvelope, FaDiscord, FaMapMarkerAlt, FaPaperPlane } from 'react-icons/fa';
+import { FaEnvelope, FaDiscord, FaMapMarkerAlt, FaPaperPlane, FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 export default function Contact() {
+  const navigate = useNavigate();
   return (
-    <div className="page" style={{ paddingTop: 100, paddingBottom: 100, minHeight: '100vh', background: 'var(--bg-primary)' }}>
-      <div className="container" style={{ maxWidth: 900 }}>
+    <div className="page" style={{ paddingTop: 100, paddingBottom: 100, minHeight: '100vh', background: 'var(--bg-primary)', position: 'relative' }}>
+      <button onClick={() => navigate(-1)} className="btn btn-secondary shape-pill" style={{ position: 'absolute', top: 100, left: '5%', zIndex: 10, display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px' }}>
+        <FaArrowLeft /> Back
+      </button>
+      <div className="container" style={{ maxWidth: 900, marginTop: 40 }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center" style={{ marginBottom: 60 }}>
           <h1 className="section-title"><span className="gradient-text">Contact Support</span></h1>
           <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', marginTop: 10 }}>
