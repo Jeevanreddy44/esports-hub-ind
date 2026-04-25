@@ -22,15 +22,32 @@
   --border-dim: rgba(255, 255, 255, 0.05);
   --border-neon: rgba(0, 243, 255, 0.2);
   
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 64px;
+  --space-7: 80px;
+
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(123,47,255,0.08);
+  --shadow-glow-cyan: 0 0 30px rgba(0,243,255,0.35), 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-glow-purple: 0 0 30px rgba(123,47,255,0.35), 0 8px 24px rgba(0,0,0,0.4);
+
   --shadow-neon: 0 0 15px var(--cyan-glow);
-  --shadow-purple: 0 0 15px var(--purple-glow);
+  --shadow-purple-glow: 0 0 15px var(--purple-glow);
   
   --radius-sm: 12px;
-  --radius: 20px;
-  --radius-lg: 32px;
-  --radius-pill: 999px; /* For Capsule buttons/inputs */
-  --radius-oval: 40px; /* For Cards/Sections */
-  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+  --radius-oval: 40px;
+  
+  --transition-fast: all 0.15s ease;
+  --transition: all 0.25s ease;
+  --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ===== RESET ===== */
@@ -223,46 +240,63 @@ ul { list-style: none; }
 .btn-primary {
   background: linear-gradient(135deg, var(--cyan), var(--purple));
   color: #fff;
-  box-shadow: 0 4px 20px rgba(0,243,255,0.3);
+  box-shadow: 0 4px 12px rgba(0,243,255,0.2);
 }
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--glow-cyan);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow-cyan);
 }
 .btn-secondary {
-  background: transparent;
+  background: rgba(255,255,255,0.02);
   color: var(--cyan);
-  border: 1px solid var(--cyan);
+  border: 1px solid rgba(0,243,255,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 .btn-secondary:hover {
-  background: rgba(0,243,255,0.1);
-  transform: translateY(-2px);
-  box-shadow: var(--glow-cyan);
+  background: rgba(0,243,255,0.08);
+  border-color: var(--cyan);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow-cyan);
 }
 .btn-danger {
   background: linear-gradient(135deg, var(--pink), #cc0055);
   color: #fff;
-  box-shadow: 0 4px 20px rgba(255,45,120,0.3);
+  box-shadow: 0 4px 12px rgba(255,45,120,0.2);
 }
-.btn-danger:hover { transform: translateY(-2px); box-shadow: var(--glow-pink); }
-.btn-sm { padding: 8px 18px; font-size: 0.875rem; }
+.btn-danger:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(255,45,120,0.4), 0 8px 24px rgba(0,0,0,0.4); }
+.btn-sm { padding: 8px 20px; font-size: 0.875rem; }
 .btn-lg { padding: 16px 40px; font-size: 1.125rem; }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(0,243,255,0.2);
+}
 
 /* ===== GLASS CARD ===== */
 .glass-card {
-  background: var(--bg-card);
+  background: rgba(13, 13, 35, 0.4);
   border: 1px solid var(--border-dim);
-  border-radius: var(--radius-oval); /* OVAL CARDS */
-  backdrop-filter: blur(24px);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-md);
   transition: var(--transition);
-  animation: card-glow-breathe 4s ease-in-out infinite;
 }
 .glass-card:hover {
-  background: var(--bg-card-hover);
+  background: rgba(13, 13, 35, 0.6);
   border-color: rgba(0,243,255,0.2);
   transform: translateY(-4px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(0,243,255,0.1);
-  animation: none;
+  box-shadow: var(--shadow-lg);
 }
 
 /* ===== BADGE ===== */

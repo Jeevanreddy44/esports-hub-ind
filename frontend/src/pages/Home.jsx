@@ -278,43 +278,48 @@ export default function Home() {
         <div className="container">
           <div className="grid-2" style={{ gap: 60, alignItems: 'center' }}>
             <div className="hero-content">
-              <div className="hero-tag anim-fade-up delay-100" style={{ background: 'rgba(0,243,255,0.1)', borderColor: 'rgba(0,243,255,0.3)', color: 'var(--cyan)' }}>
-                India's #1 Esports Platform — 50,000+ Players Strong
+              <div className="hero-tag anim-fade-up delay-100" style={{ background: 'rgba(0,243,255,0.08)', borderColor: 'rgba(0,243,255,0.2)', color: 'var(--cyan)' }}>
+                <span className="dot" style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: 'var(--cyan)', animation: 'live-pulse 1.5s infinite' }} />
+                India's #1 Competitive Gaming Platform
               </div>
-              <h1 className="hero-title anim-fade-up delay-200">
-                <span className="gradient-text" style={{ background: 'linear-gradient(135deg, var(--cyan), var(--purple), var(--pink))', WebkitBackgroundClip: 'text' }}>DOMINATE</span>
+              <h1 className="hero-title anim-fade-up delay-200" style={{ fontSize: 'clamp(2.2rem, 5vw, 4.2rem)' }}>
+                Track & Compete in <br />
+                <span className="gradient-text" style={{ background: 'linear-gradient(135deg, var(--cyan), var(--purple), var(--pink))', WebkitBackgroundClip: 'text' }}>Indian Esports Tournaments</span>
                 <br />
-                THE ARENA
+                — Real Time
               </h1>
               <p className="hero-description anim-fade-up delay-300">
-                India's fastest-growing competitive gaming platform. Discover tournaments across <strong>9 titles</strong>, win prizes up to <strong>₹5 Lakhs</strong> — and get AI-powered match prep from <strong>NeuroGamer</strong>.
+                Discover <strong>200+</strong> live tournaments across <strong>9 titles</strong>. Win up to <strong>₹5 Lakhs</strong>. Powered by AI match prep from <strong>NeuroGamer</strong>.
               </p>
               <div style={{ display: 'flex', gap: 16, marginBottom: 48, flexWrap: 'wrap' }} className="anim-fade-up delay-400 hero-btns">
                 <Link to="/tournaments" className="btn btn-primary btn-lg" style={{ background: 'linear-gradient(135deg, var(--cyan), var(--purple))' }}>
-                  Join Tournament
+                  Explore Tournaments →
                 </Link>
-                <Link to="/leaderboard" className="btn btn-secondary btn-lg" style={{ borderColor: 'var(--cyan)', color: 'var(--cyan)' }}>
+                <Link to="/leaderboard" className="btn btn-secondary btn-lg" style={{ borderColor: 'rgba(0,243,255,0.3)', color: 'var(--cyan)' }}>
                   View Leaderboard
                 </Link>
               </div>
-              <div className="hero-stats anim-fade-up delay-500" style={{ display: 'flex', gap: 24, justifyContent: 'flex-start' }}>
+              <div className="hero-stats anim-fade-up delay-500" style={{ display: 'flex', gap: 16, justifyContent: 'flex-start', flexWrap: 'wrap' }}>
                 {STATS.map(s => (
-                  <div key={s.label} className="hero-stat shape-circle" style={{
-                    width: 100, height: 100,
-                    background: 'rgba(255,255,255,0.04)',
+                  <div key={s.label} className="hero-stat shape-pill" style={{
+                    padding: '12px 24px',
+                    background: 'rgba(13,13,35,0.6)',
                     border: `1px solid ${s.color}33`,
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                    boxShadow: `0 0 20px ${s.color}15`,
-                    backdropFilter: 'blur(10px)',
+                    display: 'flex', alignItems: 'center', gap: 12,
+                    boxShadow: `0 8px 24px rgba(0,0,0,0.4), 0 0 15px ${s.color}15`,
+                    backdropFilter: 'blur(12px)',
+                    transition: 'var(--transition)'
                   }}>
-                    <span style={{ fontSize: '1.1rem', marginBottom: 2, color: s.color }}>{s.icon}</span>
-                    <span className="hero-stat-value" style={{ color: s.color, fontSize: '1.1rem', fontWeight: 900 }}>
-                      {s.label === 'Players' ? `${(counter.players / 1000).toFixed(0)}K`
-                        : s.label === 'Prize Pool' ? `₹${counter.prize}L`
-                          : s.label === 'Tournaments' ? `${counter.tournaments}`
-                            : s.value}
-                    </span>
-                    <span className="hero-stat-label" style={{ fontSize: '0.55rem', fontWeight: 800 }}>{s.label}</span>
+                    <div style={{ fontSize: '1.2rem', color: s.color, display: 'flex' }}>{s.icon}</div>
+                    <div style={{ textAlign: 'left' }}>
+                      <div className="hero-stat-value" style={{ color: '#fff', fontSize: '1.1rem', fontWeight: 800, fontFamily: 'Rajdhani', marginBottom: 0 }}>
+                        {s.label === 'Players' ? `${(counter.players / 1000).toFixed(0)}K+`
+                          : s.label === 'Prize Pool' ? `₹${counter.prize}L+`
+                            : s.label === 'Tournaments' ? `${counter.tournaments}+`
+                              : s.value}
+                      </div>
+                      <div className="hero-stat-label" style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-muted)' }}>{s.label}</div>
+                    </div>
                   </div>
                 ))}
               </div>
