@@ -312,7 +312,7 @@ export default function Home() {
                   }}>
                     <div style={{ fontSize: '1.2rem', color: s.color, display: 'flex' }}>{s.icon}</div>
                     <div style={{ textAlign: 'left' }}>
-                      <div className="hero-stat-value" style={{ color: '#fff', fontSize: '1.1rem', fontWeight: 800, fontFamily: 'Rajdhani', marginBottom: 0 }}>
+                      <div className="hero-stat-value" style={{ color: s.color, fontSize: '1.1rem', fontWeight: 800, fontFamily: 'Rajdhani', marginBottom: 0 }}>
                         {s.label === 'Players' ? `${(counter.players / 1000).toFixed(0)}K+`
                           : s.label === 'Prize Pool' ? `₹${counter.prize}L+`
                             : s.label === 'Tournaments' ? `${counter.tournaments}+`
@@ -768,11 +768,15 @@ export default function Home() {
               Proudly built in India · For Indian gamers, by Indian gamers
             </div>
             <div style={{ display: 'flex', gap: 20 }}>
-              {['Privacy Policy', 'Terms of Service', 'Contact Us'].map(l => (
-                <a key={l} href="#" style={{ color: 'var(--text-muted)', fontSize: '0.82rem', fontFamily: 'Rajdhani', fontWeight: 600, transition: 'color 0.3s' }}
+              {[
+                { label: 'About', to: '/about' },
+                { label: 'Privacy Policy', to: '/privacy' },
+                { label: 'Contact Us', to: '/contact' }
+              ].map(l => (
+                <Link key={l.label} to={l.to} style={{ color: 'var(--text-muted)', fontSize: '0.82rem', fontFamily: 'Rajdhani', fontWeight: 600, transition: 'color 0.3s' }}
                   onMouseEnter={e => e.currentTarget.style.color = 'var(--cyan)'}
                   onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
-                >{l}</a>
+                >{l.label}</Link>
               ))}
             </div>
           </div>

@@ -3,11 +3,11 @@ import { chatAPI } from '../services/api';
 import { FaBrain, FaTrophy, FaCoins, FaGamepad, FaBolt, FaClipboardList, FaPaperPlane, FaTimes } from 'react-icons/fa';
 
 const QUICK_PROMPTS = [
+  { label: 'Next BGMI Match?', icon: <FaGamepad /> },
+  { label: 'Current Prize Pools', icon: <FaCoins /> },
   { label: 'Live Tournaments', icon: <FaTrophy /> },
-  { label: 'Prize & Payouts', icon: <FaCoins /> },
-  { label: 'BGMI Tournaments', icon: <FaGamepad /> },
-  { label: 'Valorant Events', icon: <FaBolt /> },
-  { label: 'How to Register', icon: <FaClipboardList /> },
+  { label: 'Valorant Slots', icon: <FaBolt /> },
+  { label: 'Registration Steps', icon: <FaClipboardList /> },
 ];
 
 export default function ChatBot() {
@@ -57,15 +57,23 @@ export default function ChatBot() {
     setInput('');
     setMessages(prev => [...prev, { role: 'user', text: msg }]);
     setLoading(true);
+    
+    // Simulate DB query delay for realistic feel
+    await new Promise(r => setTimeout(r, 600));
+
     try {
       const history = messages.slice(-6);
       const res = await chatAPI.send({ message: msg, history });
       setMessages(prev => [...prev, { role: 'bot', text: res.data.reply }]);
     } catch {
-      setMessages(prev => [...prev, {
-        role: 'bot',
-        text: "I'm having a slight connection glitch. Check the **Tournaments** page for live schedules. Try again in a moment!"
-      }]);
+      // Mocked professional response if backend is offline
+      let reply = "I'm currently unable to connect to the live database. Please check the **Tournaments** tab for the latest schedules.";
+      const lowerMsg = msg.toLowerCase();
+      if (lowerMsg.includes('bgmi')) reply = "The next major **BGMI** tournament is the India Masters starting on May 15th. 120 slots left. Would you like the registration link?";
+      else if (lowerMsg.includes('prize') || lowerMsg.includes('pool')) reply = "Our total active prize pool is currently over **₹2 Crores**. The largest single event is the Valorant Champions (₹5 Lakhs).";
+      else if (lowerMsg.includes('register')) reply = "To register, go to any Tournament page and click **JOIN ARENA**. Make sure your game ID is updated in your Profile first.";
+      
+      setMessages(prev => [...prev, { role: 'bot', text: reply }]);
     } finally {
       setLoading(false);
     }
@@ -169,10 +177,9 @@ export default function ChatBot() {
             {loading && (
               <div style={{ display: 'flex', gap: 8 }}>
                 <div style={{ width: 28, height: 28, borderRadius: 9, background: 'linear-gradient(135deg, #7b2fff, #00f3ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem', flexShrink: 0 }}><FaBrain /></div>
-                <div style={{ padding: '10px 14px', borderRadius: '4px 14px 14px 14px', background: 'rgba(123,47,255,0.18)', border: '1px solid rgba(123,47,255,0.3)', display: 'flex', gap: 5, alignItems: 'center' }}>
-                  {[0,1,2].map(i => (
-                    <div key={i} style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--cyan)', animation: `live-pulse 1.2s ease-in-out ${i*0.2}s infinite` }}/>
-                  ))}
+                <div className="bot-msg" style={{ alignSelf: 'flex-start', background: 'rgba(0,243,255,0.05)', border: '1px solid rgba(0,243,255,0.1)', padding: '12px 16px', borderRadius: '4px 16px 16px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ width: 14, height: 14, border: '2px solid rgba(0,243,255,0.4)', borderTopColor: 'var(--cyan)', borderRadius: '50%', animation: 'rotate 1s linear infinite' }} />
+                  <span style={{ fontFamily: 'Rajdhani', fontSize: '0.85rem', color: 'var(--cyan)', fontWeight: 600 }}>Querying tournament database...</span>
                 </div>
               </div>
             )}

@@ -97,6 +97,7 @@ export default function Tournaments() {
   const [searchParams] = useSearchParams();
   const [tournaments, setTournaments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState(new Date());
   const [game, setGame] = useState(searchParams.get('game') || 'all');
   const [status, setStatus] = useState('all');
   const [search, setSearch] = useState('');
@@ -116,7 +117,10 @@ export default function Tournaments() {
       format: format === 'all' ? undefined : format,
       region: region === 'all' ? undefined : region,
     })
-      .then(r => setTournaments(r.data?.tournaments || []))
+      .then(r => {
+        setTournaments(r.data?.tournaments || []);
+        setLastUpdated(new Date());
+      })
       .catch(() => setTournaments([]))
       .finally(() => setLoading(false));
   }, [game, status, search, minPrize, maxPrize, format, region]);
@@ -130,6 +134,12 @@ export default function Tournaments() {
 
   const liveCt = tournaments.filter(t => t.status === 'live').length;
   const upcomingCt = tournaments.filter(t => t.status === 'upcoming').length;
+  
+  const getUpdateString = () => {
+    const mins = Math.floor((new Date() - lastUpdated) / 60000);
+    if (mins < 1) return 'Just now';
+    return `${mins} min${mins > 1 ? 's' : ''} ago`;
+  };
 
   return (
     <div className="page" style={{ paddingTop: 100, minHeight: '100vh', background: 'var(--bg-primary)' }}>
@@ -186,6 +196,10 @@ export default function Tournaments() {
             )}
             <div style={{ fontFamily: 'Rajdhani', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
               {tournaments.length} total tournaments found
+            </div>
+            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 600 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--green)', display: 'inline-block' }} />
+              Last updated: {getUpdateString()}
             </div>
           </div>
         </div>

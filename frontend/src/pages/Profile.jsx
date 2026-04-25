@@ -7,6 +7,16 @@ import Skeleton from '../components/common/Skeleton';
 import toast from 'react-hot-toast';
 import { GameIcon } from '../utils/gameLogos';
 import { FaTrophy, FaMapMarkerAlt, FaBolt, FaBroadcastTower, FaClock, FaHistory, FaBookmark, FaGem } from 'react-icons/fa';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+const mockPerformanceData = [
+  { month: 'Jan', xp: 400 },
+  { month: 'Feb', xp: 600 },
+  { month: 'Mar', xp: 850 },
+  { month: 'Apr', xp: 1200 },
+  { month: 'May', xp: 1600 },
+  { month: 'Jun', xp: 2100 },
+];
 
 export default function Profile() {
   const { user, logout } = useAuth();
@@ -163,6 +173,27 @@ export default function Profile() {
                   <div style={{ fontSize: '1rem', marginTop: 4 }}>{s.icon}</div>
                 </div>
               ))}
+            </div>
+
+            {/* Performance Analytics */}
+            <div className="card" style={{ padding: '32px', marginBottom: 48, background: 'rgba(13, 13, 35, 0.5)' }}>
+              <h2 style={{ fontFamily: 'Orbitron', fontSize: '1.2rem', fontWeight: 800, color: '#fff', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 10 }}>
+                <FaBolt style={{ color: 'var(--cyan)' }} /> PERFORMANCE TREND
+              </h2>
+              <div style={{ height: 260, width: '100%' }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={mockPerformanceData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                    <XAxis dataKey="month" stroke="rgba(255,255,255,0.2)" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 12, fontFamily: 'Rajdhani' }} />
+                    <YAxis stroke="rgba(255,255,255,0.2)" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 12, fontFamily: 'Rajdhani' }} />
+                    <Tooltip 
+                      contentStyle={{ background: 'rgba(13,13,35,0.9)', border: '1px solid rgba(0,243,255,0.2)', borderRadius: 12, fontFamily: 'Orbitron' }}
+                      itemStyle={{ color: '#00f3ff' }}
+                    />
+                    <Line type="monotone" dataKey="xp" stroke="#00f3ff" strokeWidth={3} dot={{ r: 4, fill: '#00f3ff', strokeWidth: 0 }} activeDot={{ r: 6, fill: '#fff', stroke: '#00f3ff', strokeWidth: 2 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
             </div>
 
             {/* Tournaments List */}

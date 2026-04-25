@@ -115,20 +115,30 @@ const PodiumCard = ({ player, rank, gameIcon }) => {
 
 export default function Leaderboard() {
   const navigate = useNavigate();
-  const [players, setPlayers] = useState([]);
+  const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState(new Date());
   const [game, setGame] = useState('all');
 
   useEffect(() => {
     setLoading(true);
     leaderboardAPI.get({ game: game === 'all' ? undefined : game })
-      .then(r => setPlayers(r.data?.players || []))
-      .catch(() => setPlayers([]))
+      .then(r => {
+        setLeaderboard(r.data?.players || []);
+        setLastUpdated(new Date());
+      })
+      .catch(() => setLeaderboard([]))
       .finally(() => setLoading(false));
   }, [game]);
 
-  const top3 = players.slice(0, 3);
-  const rest = players.slice(3);
+  const getUpdateString = () => {
+    const mins = Math.floor((new Date() - lastUpdated) / 60000);
+    if (mins < 1) return 'Just now';
+    return `${mins} min${mins > 1 ? 's' : ''} ago`;
+  };
+
+  const top3 = leaderboard.slice(0, 3);
+  const rest = leaderboard.slice(3);
 
   // Reorder for podium: 2nd, 1st, 3rd
   const podiumOrder = [];
@@ -198,9 +208,10 @@ export default function Leaderboard() {
             }}>HALL OF CHAMPIONS</span>
           </h1>
           
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', maxWidth: 600, margin: '0 auto 40px' }}>
-            Experience the rivalry. Only the absolute best make it to the top.
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 600, margin: '0 auto 40px' }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--green)', display: 'inline-block' }} />
+            Last updated: {getUpdateString()}
+          </div>
 
           {/* Dynamic Filter */}
           <div className="shape-oval" style={{ 
@@ -243,15 +254,22 @@ export default function Leaderboard() {
 
       <div className="container" style={{ padding: '0 24px 100px' }}>
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '100px 0' }}>
-            <div style={{ 
-              width: 50, height: 50, border: '3px solid rgba(255,215,0,0.1)', 
-              borderTopColor: '#FFD700', borderRadius: '50%',
-              margin: '0 auto 20px', animation: 'rotate 1s linear infinite'
-            }} />
-            <p style={{ fontFamily: 'Rajdhani', fontWeight: 600, color: 'var(--text-muted)' }}>Synching Champion Data...</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {[1,2,3,4,5].map(i => (
+              <div key={i} className="leaderboard-row" style={{ height: 80, padding: '16px 24px', opacity: 1 - i * 0.15 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16, width: '100%' }}>
+                  <Skeleton width="40px" height="40px" borderRadius="10px" />
+                  <Skeleton width="44px" height="44px" borderRadius="12px" />
+                  <div style={{ flex: 1 }}>
+                    <Skeleton width="120px" height="18px" className="mb-2" />
+                    <Skeleton width="80px" height="12px" />
+                  </div>
+                  <Skeleton width="80px" height="24px" />
+                </div>
+              </div>
+            ))}
           </div>
-        ) : players.length === 0 ? (
+        ) : leaderboard.length === 0 ? (
           <div style={{ 
             textAlign: 'center', padding: '100px 0', 
             background: 'rgba(15,15,35,0.5)', borderRadius: 24, border: '1px solid rgba(255,255,255,0.05)'
