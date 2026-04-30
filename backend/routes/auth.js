@@ -106,10 +106,15 @@ router.post('/update', async (req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET);
 
     const { name, state, games, avatar_url } = req.body;
+    const updateData = {};
+    if (name !== undefined) updateData.name = name;
+    if (state !== undefined) updateData.state = state;
+    if (games !== undefined) updateData.games = games;
+    if (avatar_url !== undefined) updateData.avatar_url = avatar_url;
     
     const { data: user, error } = await supabase
       .from('users')
-      .update({ name, state, games, avatar_url })
+      .update(updateData)
       .eq('id', decoded.id)
       .select('id, name, email, state, games, avatar_url, created_at')
       .single();
