@@ -130,7 +130,8 @@ async function seedTournaments() {
     }
   ];
 
-  await supabase.from('tournaments').insert(tournaments);
+  const { error } = await supabase.from('tournaments').insert(tournaments);
+  if (error) throw error;
   console.log(`✅ ${tournaments.length} Real & Original tournaments seeded`);
 }
 
@@ -151,7 +152,8 @@ async function seedLeaderboard() {
     { player_name: 'MLBB_Slayer', game: 'MLBB', state: 'Assam', rank: 1, points: 11800, wins: 76, tournaments_played: 88, avatar_color: '#06B6D4' }
   ];
 
-  await supabase.from('leaderboard').insert(players);
+  const { error } = await supabase.from('leaderboard').insert(players);
+  if (error) throw error;
   console.log('✅ Professional Leaderboard seeded');
 }
 
