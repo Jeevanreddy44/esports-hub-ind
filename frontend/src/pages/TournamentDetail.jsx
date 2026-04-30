@@ -308,18 +308,17 @@ export default function TournamentDetail() {
 
               <div style={{ marginBottom: 16 }}>
                  <div style={{ fontSize: '0.65rem', color: accentColor, fontFamily: 'Rajdhani', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 12 }}>
-                   Esports Hub Roster Tracking
+                   Personal Tournament Tracker
                  </div>
               </div>
 
-              {registered ? (
                 <div className="shape-oval" style={{ 
                   padding: '32px 24px', textAlign: 'center',
                   background: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.4)',
                 }}>
                   <div style={{ fontSize: '2.5rem', marginBottom: 16, display: 'flex', justifyContent: 'center', color: '#10B981' }}><FaShieldAlt /></div>
-                  <div style={{ fontFamily: 'Orbitron', fontWeight: 900, color: '#10B981', fontSize: '1.4rem', marginBottom: 8 }}>HUB SECURED</div>
-                  <p style={{ fontFamily: 'Rajdhani', fontWeight: 700, color: 'var(--text-muted)', fontSize: '0.95rem' }}>Your stats for this tournament are being tracked.</p>
+                  <div style={{ fontFamily: 'Orbitron', fontWeight: 900, color: '#10B981', fontSize: '1.4rem', marginBottom: 8 }}>EVENT TRACKED</div>
+                  <p style={{ fontFamily: 'Rajdhani', fontWeight: 700, color: 'var(--text-muted)', fontSize: '0.95rem' }}>This tournament is now in your personal hub tracker.</p>
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -339,10 +338,10 @@ export default function TournamentDetail() {
                     onMouseEnter={e => { if (!isPast && !isFull) e.currentTarget.style.transform = 'scale(1.02) translateY(-4px)'; }}
                     onMouseLeave={e => { if (!isPast && !isFull) e.currentTarget.style.transform = 'scale(1) translateY(0)'; }}
                   >
-                    {registering ? 'PROCESSING...' : isPast ? 'EXPIRED' : isFull ? 'FULL' : 'JOIN HUB ROSTER'}
+                    {registering ? 'PROCESSING...' : isPast ? 'EXPIRED' : isFull ? 'FULL' : 'ADD TO TRACKER'}
                   </button>
                   <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 600, textAlign: 'center' }}>
-                    Join our Hub roster to track your rank and win Hub points.
+                    Add this event to your profile to track updates and results.
                   </p>
                 </div>
               )}
@@ -361,12 +360,14 @@ export default function TournamentDetail() {
             }}>
               <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, color: 'var(--text-muted)', fontSize: '0.8rem' }}>SHARE</div>
               <div style={{ display: 'flex', gap: 15 }}>
-                {[<FaShareAlt />, <FaMobileAlt />, <FaTwitter />].map((icon, i) => (
-                  <button key={i} onClick={() => { navigator.clipboard.writeText(window.location.href); toast.success('Link copied!'); }} 
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', padding: '8px 10px', borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', fontSize: '0.9rem' }}>
-                    {icon}
-                  </button>
-                ))}
+                <button onClick={() => { navigator.clipboard.writeText(window.location.href); toast.success('Link copied!'); }} 
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', padding: '8px 10px', borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', fontSize: '0.9rem' }}>
+                  <FaShareAlt />
+                </button>
+                <button onClick={() => window.open(`https://twitter.com/intent/tweet?text=Check out this tournament on Esports Hub India: ${window.location.href}`, '_blank')} 
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', padding: '8px 10px', borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', fontSize: '0.9rem' }}>
+                  <FaTwitter />
+                </button>
               </div>
             </div>
           </div>

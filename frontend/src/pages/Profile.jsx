@@ -6,18 +6,18 @@ import { tournamentAPI } from '../services/api';
 import Skeleton from '../components/common/Skeleton';
 import toast from 'react-hot-toast';
 import { GameIcon } from '../utils/gameLogos';
-import { FaTrophy, FaMapMarkerAlt, FaBookmark, FaGem, FaArrowLeft, FaCheckCircle, FaCalendarAlt, FaCamera, FaTimes } from 'react-icons/fa';
+import { FaTrophy, FaMapMarkerAlt, FaBookmark, FaGem, FaArrowLeft, FaCheckCircle, FaCalendarAlt, FaCamera, FaTimes, FaBroadcastTower } from 'react-icons/fa';
 import { authAPI } from '../services/api';
 
 // Import New Avatars
 import avatar1 from '../assets/avatars/avatar1.png';
-import avatar2 from '../assets/avatars/avatar2.png';
 import avatar3 from '../assets/avatars/avatar3.png';
+import avatar4 from '../assets/avatars/avatar4.png';
 
 const AVAILABLE_AVATARS = [
   { id: 'av1', url: avatar1, name: 'Cyber Visor' },
-  { id: 'av2', url: avatar2, name: 'Tactical Helmet' },
   { id: 'av3', url: avatar3, name: 'Digital Phoenix' },
+  { id: 'av4', url: avatar4, name: 'Pro Controller' },
 ];
 
 
