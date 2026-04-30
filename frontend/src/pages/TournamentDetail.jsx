@@ -312,6 +312,7 @@ export default function TournamentDetail() {
                  </div>
               </div>
 
+              {registered ? (
                 <div className="shape-oval" style={{ 
                   padding: '32px 24px', textAlign: 'center',
                   background: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.4)',
