@@ -66,7 +66,8 @@ export default function Profile() {
       toast.success('Avatar updated successfully!');
       setShowAvatarModal(false);
     } catch (err) {
-      toast.error('Failed to update avatar.');
+      console.error('❌ Update Error:', err);
+      toast.error('Failed: ' + (err.response?.data?.error || err.message));
     } finally {
       setUpdating(false);
     }

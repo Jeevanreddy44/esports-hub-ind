@@ -133,7 +133,11 @@ export default function Tournaments() {
         setTournaments(r.data?.tournaments || []);
         setLastUpdated(new Date());
       })
-      .catch(() => setTournaments([]))
+      .catch((err) => {
+        console.error('❌ API Error:', err);
+        toast.error('Failed to load tournaments: ' + (err.response?.data?.error || err.message));
+        setTournaments([]);
+      })
       .finally(() => setLoading(false));
   }, [game, status, search, minPrize, maxPrize, format, region]);
 
