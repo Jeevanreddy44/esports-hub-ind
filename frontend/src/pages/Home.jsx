@@ -26,20 +26,20 @@ const GAMES = [
 
 const STATS = [
   { value: '50K+', label: 'Players', color: '#00f3ff', icon: <FaUsers /> },
-  { value: '₹2Cr+', label: 'Prize Pool', color: '#ffd60a', icon: <FaTrophy /> },
+  { value: '₹5Cr+', label: 'Total Prizes', color: '#ffd60a', icon: <FaTrophy /> },
   { value: '200+', label: 'Tournaments', color: '#7b2fff', icon: <FaGamepad /> },
   { value: '28', label: 'States', color: '#00ff88', icon: <FaMapMarkedAlt /> },
 ];
 
 const TICKER_ITEMS = [
-  'LIVE — NODWIN BGMI Masters Series — ₹1.5 Cr Prize Pool',
-  'REGISTRATION OPEN — VCT India Challengers — 32 Elite Slots',
-  'LIVE — Skyesports FF Max Grand Prix — Final Day Today!',
-  'UPCOMING — ESL India CS2 Pro League — Starting May 20',
-  'NEW — MPL India MLBB Qualifiers — Join the Land of Dawn',
-  'LEADERBOARD — GodL_Jonathan dominates BGMI rankings with 15k+ points',
-  'ALERT — Aeos Cup India Pokemon Unite — Registration ends in 48 hours',
-  'LIVE — Iron Fist India Tekken 8 — Top 16 Bracket in progress',
+  'LIVE — Battlegrounds Mobile India Pro Series (BMPS) 2026 — ₹2 Cr Prize Pool',
+  'COMPLETED — FFMIC 2026 Spring — Congratulations to Team Hind!',
+  'UPCOMING — Free Fire MAX India Cup (FFMIC) Fall — Starting August 15',
+  'UPCOMING — VALORANT Challengers South Asia Split 2 — Qualifiers in June',
+  'LIVE — Skyesports Free Fire Max Grand Prix — Intense competition in Group Stages',
+  'UPCOMING — ESL India CS2 Pro League S1 — Register now on official portal',
+  'LEADERBOARD — GodL_Jonathan leads BGMI rankings with 15k+ points',
+  'NEWS — Team Hind dominates FFMIC Spring Grand Finals in Ahmedabad',
 ];
 
 const NEWS = [
@@ -332,7 +332,7 @@ export default function Home() {
                 <span className="gradient-text" style={{ background: 'linear-gradient(135deg, var(--cyan), var(--purple), var(--pink))', WebkitBackgroundClip: 'text' }}>Follow Every Tournament.</span>
               </h1>
               <p className="hero-description anim-fade-up delay-300">
-                Discover <strong>200+</strong> live tournaments across <strong>9 titles</strong>. Win up to <strong>₹5 Lakhs</strong>. Powered by AI match prep from <strong>NeuroGamer</strong>.
+                Discover <strong>200+</strong> live tournaments across <strong>9 titles</strong>. Compete for <strong>₹2 Crore+</strong> prize pools. Powered by AI match prep from <strong>NeuroGamer</strong>.
               </p>
               <div style={{ display: 'flex', gap: 16, marginBottom: 48, flexWrap: 'wrap' }} className="anim-fade-up delay-400 hero-btns">
                 <Link to="/tournaments" className="btn btn-primary btn-lg" style={{ background: 'linear-gradient(135deg, var(--cyan), var(--purple))' }}>
