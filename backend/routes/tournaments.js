@@ -116,7 +116,13 @@ router.get('/user/registered', async (req, res) => {
       .eq('user_id', decoded.id);
 
     if (error) throw error;
-    res.json({ tournaments: registrations.map(r => r.tournaments).filter(t => t !== null) });
+    
+    const flattened = registrations.map(r => {
+      const t = r.tournaments;
+      return Array.isArray(t) ? t[0] : t;
+    }).filter(t => t !== null);
+
+    res.json({ tournaments: flattened });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -161,7 +167,14 @@ router.get('/user/bookmarks', async (req, res) => {
       .eq('user_id', decoded.id);
 
     if (error) throw error;
-    res.json({ tournaments: bookmarks.map(b => b.tournaments).filter(t => t !== null) });
+    
+    // Flatten result and handle cases where tournaments might be returned as an array or object
+    const flattened = bookmarks.map(b => {
+      const t = b.tournaments;
+      return Array.isArray(t) ? t[0] : t;
+    }).filter(t => t !== null);
+
+    res.json({ tournaments: flattened });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

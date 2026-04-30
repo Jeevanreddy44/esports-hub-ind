@@ -7,7 +7,8 @@ import Skeleton from '../components/common/Skeleton';
 import toast from 'react-hot-toast';
 import CountdownTimer from '../components/CountdownTimer';
 import { GameIcon } from '../utils/gameLogos';
-import { FaShareAlt, FaMobileAlt, FaTwitter, FaTrophy, FaShieldAlt, FaScroll, FaBullseye, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaShareAlt, FaTrophy, FaShieldAlt, FaScroll, FaBullseye, FaExternalLinkAlt, FaXTwitter } from 'react-icons/fa6';
+import { FaMobileAlt } from 'react-icons/fa';
 
 export default function TournamentDetail() {
   const { id } = useParams();
@@ -361,13 +362,18 @@ export default function TournamentDetail() {
             }}>
               <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, color: 'var(--text-muted)', fontSize: '0.8rem' }}>SHARE</div>
               <div style={{ display: 'flex', gap: 15 }}>
-                <button onClick={() => { navigator.clipboard.writeText(window.location.href); toast.success('Link copied!'); }} 
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', padding: '8px 10px', borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', fontSize: '0.9rem' }}>
-                  <FaShareAlt />
+                <button 
+                  onClick={() => {
+                    const link = tournament.registration_link && tournament.registration_link !== 'Coming Soon' && tournament.registration_link !== 'Invite Only' ? tournament.registration_link : window.location.href;
+                    window.open(link, '_blank');
+                  }} 
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', padding: '8px 10px', borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.8rem', fontFamily: 'Rajdhani', fontWeight: 800 }}>
+                  <FaExternalLinkAlt size={12} /> VISIT LINK
                 </button>
-                <button onClick={() => window.open(`https://twitter.com/intent/tweet?text=Check out this tournament on Esports Hub India: ${window.location.href}`, '_blank')} 
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', padding: '8px 10px', borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', fontSize: '0.9rem' }}>
-                  <FaTwitter />
+                <button 
+                  onClick={() => window.open(`https://twitter.com/intent/tweet?text=Check out this tournament on Esports Hub India: ${window.location.href}`, '_blank')} 
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', padding: '8px 10px', borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.8rem', fontFamily: 'Rajdhani', fontWeight: 800 }}>
+                  <FaXTwitter size={14} /> SHARE ON X
                 </button>
               </div>
             </div>

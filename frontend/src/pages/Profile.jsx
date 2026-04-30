@@ -20,6 +20,13 @@ const AVAILABLE_AVATARS = [
   { id: 'av4', url: avatar4, name: 'Pro Controller' },
 ];
 
+const profileStyles = `
+  @keyframes circle-glow {
+    from { transform: scale(1); box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(0,243,255,0.1); }
+    to { transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 35px rgba(0,243,255,0.3); }
+  }
+`;
+
 
 export default function Profile() {
   const { user, logout, updateUser } = useAuth();
@@ -77,6 +84,7 @@ export default function Profile() {
 
   return (
     <div className="page" style={{ background: 'var(--bg-primary)', position: 'relative', overflowX: 'hidden' }}>
+      <style>{profileStyles}</style>
       {/* Background Decor */}
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, height: '60vh',
@@ -205,12 +213,13 @@ export default function Profile() {
               ].map(s => (
                 <div key={s.label} className="shape-circle" style={{
                   width: 140, height: 140,
-                  background: 'rgba(255,255,255,0.03)', border: `1px solid ${s.color}22`,
+                  background: 'rgba(255,255,255,0.03)', border: `1px solid ${s.color}44`,
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: `0 10px 20px rgba(0,0,0,0.3), 0 0 15px ${s.color}10`,
-                  textAlign: 'center'
+                  boxShadow: `0 10px 30px rgba(0,0,0,0.5), 0 0 20px ${s.color}20, inset 0 0 15px ${s.color}10`,
+                  textAlign: 'center',
+                  animation: 'circle-glow 3s ease-in-out infinite alternate'
                 }}>
-                  <div style={{ fontFamily: 'Orbitron', fontSize: '1.8rem', fontWeight: 900, color: s.color }}>{s.value}</div>
+                  <div style={{ fontFamily: 'Orbitron', fontSize: '2rem', fontWeight: 900, color: s.color, filter: `drop-shadow(0 0 8px ${s.color}66)` }}>{s.value}</div>
                   <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 800, letterSpacing: '0.08em', marginTop: 4 }}>{s.label}</div>
                   <div style={{ fontSize: '1.2rem', marginTop: 8, color: s.color, opacity: 0.8 }}>{s.icon}</div>
                 </div>
