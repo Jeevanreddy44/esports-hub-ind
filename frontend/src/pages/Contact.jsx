@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FaEnvelope, FaDiscord, FaMapMarkerAlt, FaPaperPlane, FaArrowLeft } from 'react-icons/fa';
+import { FaEnvelope, FaPhone, FaPaperPlane, FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 export default function Contact() {
@@ -32,24 +32,21 @@ export default function Contact() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div className="card" style={{ padding: '30px', display: 'flex', alignItems: 'center', gap: 20 }}>
-              <div className="shape-circle" style={{ width: 50, height: 50, background: 'rgba(0,243,255,0.1)', color: 'var(--cyan)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FaEnvelope /></div>
+              <div className="shape-circle" style={{ width: 50, height: 50, background: 'rgba(234,67,53,0.1)', color: '#ea4335', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FaEnvelope /></div>
               <div>
                 <div style={{ fontFamily: 'Rajdhani', fontWeight: 800, color: 'var(--text-muted)' }}>EMAIL US</div>
-                <div style={{ fontFamily: 'Inter', fontWeight: 600 }}>support@esportshub.in</div>
+                <div style={{ fontFamily: 'Inter', fontWeight: 600 }}>
+                  <a href="mailto:esportshubindia@gmail.com" style={{ color: '#fff', textDecoration: 'none', transition: 'color 0.3s' }} onMouseEnter={e => e.currentTarget.style.color = '#ea4335'} onMouseLeave={e => e.currentTarget.style.color = '#fff'}>esportshubindia@gmail.com</a>
+                </div>
               </div>
             </div>
             <div className="card" style={{ padding: '30px', display: 'flex', alignItems: 'center', gap: 20 }}>
-              <div className="shape-circle" style={{ width: 50, height: 50, background: 'rgba(123,47,255,0.1)', color: 'var(--purple)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FaDiscord /></div>
+              <div className="shape-circle" style={{ width: 50, height: 50, background: 'rgba(0,243,255,0.1)', color: 'var(--cyan)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FaPhone /></div>
               <div>
-                <div style={{ fontFamily: 'Rajdhani', fontWeight: 800, color: 'var(--text-muted)' }}>JOIN DISCORD</div>
-                <div style={{ fontFamily: 'Inter', fontWeight: 600 }}>discord.gg/esportshub</div>
-              </div>
-            </div>
-            <div className="card" style={{ padding: '30px', display: 'flex', alignItems: 'center', gap: 20 }}>
-              <div className="shape-circle" style={{ width: 50, height: 50, background: 'rgba(255,45,120,0.1)', color: 'var(--pink)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FaMapMarkerAlt /></div>
-              <div>
-                <div style={{ fontFamily: 'Rajdhani', fontWeight: 800, color: 'var(--text-muted)' }}>HEADQUARTERS</div>
-                <div style={{ fontFamily: 'Inter', fontWeight: 600 }}>Bangalore, Karnataka, India</div>
+                <div style={{ fontFamily: 'Rajdhani', fontWeight: 800, color: 'var(--text-muted)' }}>CALL US</div>
+                <div style={{ fontFamily: 'Inter', fontWeight: 600 }}>
+                  <a href="tel:+919876543210" style={{ color: '#fff', textDecoration: 'none', transition: 'color 0.3s' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--cyan)'} onMouseLeave={e => e.currentTarget.style.color = '#fff'}>+91 98765 43210</a>
+                </div>
               </div>
             </div>
           </div>

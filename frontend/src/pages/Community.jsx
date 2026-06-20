@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaDiscord, FaInstagram, FaTelegramPlane, FaYoutube, FaUsers, FaTrophy, FaHandshake, FaArrowRight } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
+import { FaEnvelope, FaPhone, FaUsers, FaTrophy, FaHandshake, FaArrowRight } from 'react-icons/fa';
 
 const STATS = [
   { icon: <FaUsers />, label: 'Active Members', value: '48K+', color: '#5865F2' },
@@ -122,20 +121,17 @@ export default function Community() {
           </div>
         </div>
 
-        {/* Social Networks */}
-        <h2 className="section-title anim-fade-up" style={{ textAlign: 'center', marginBottom: 40 }}>Our <span className="gradient-text" style={{ color: 'var(--cyan)' }}>Networks</span></h2>
+        {/* Contact Us */}
+        <h2 className="section-title anim-fade-up" style={{ textAlign: 'center', marginBottom: 40 }}>Contact <span className="gradient-text" style={{ color: 'var(--cyan)' }}>Us</span></h2>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 30 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 30, maxWidth: 800, margin: '0 auto' }}>
           {[
-            { id: 'ig', name: 'Instagram', icon: <FaInstagram />, color: '#E1306C', desc: 'Tournament highlights & clips', action: 'FOLLOW @ARENA_HUB', delay: 0 },
-            { id: 'yt', name: 'YouTube', icon: <FaYoutube />, color: '#FF0000', desc: 'Live streams and pro casting', action: 'SUBSCRIBE NOW', delay: 0.1 },
-            { id: 'x', name: 'X (Twitter)', icon: <FaXTwitter />, color: '#ffffff', desc: 'Breaking news & quick updates', action: 'FOLLOW ON X', delay: 0.2 },
-            { id: 'tg', name: 'Telegram', icon: <FaTelegramPlane />, color: '#0088CC', desc: 'Instant registration alerts', action: 'GET ALERTS', delay: 0.3 },
-            { id: 'dc', name: 'Discord', icon: <FaDiscord />, color: '#5865F2', desc: 'Main hub for scrims & chat', action: 'JOIN 48K+ MEMBERS', delay: 0.4 },
+            { id: 'mail', name: 'Gmail', icon: <FaEnvelope />, color: '#ea4335', desc: 'Send us an email for queries and support', action: 'esportshubindia@gmail.com', href: 'mailto:esportshubindia@gmail.com', delay: 0 },
+            { id: 'phone', name: 'Contact Number', icon: <FaPhone />, color: '#00F3FF', desc: 'Call us directly for immediate assistance', action: '+91 98765 43210', href: 'tel:+919876543210', delay: 0.1 },
           ].map((ch) => (
             <motion.a
               key={ch.id}
-              href="#"
+              href={ch.href}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               whileHover={{ y: -8 }}

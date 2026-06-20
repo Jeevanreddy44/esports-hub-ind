@@ -31,7 +31,7 @@ export default function PrivacyPolicy() {
 
             <h3 style={{ fontFamily: 'Orbitron', color: '#fff', marginBottom: 16 }}>4. Contact Us</h3>
             <p>
-              If you have any questions about this Privacy Policy, please contact our Data Protection Officer at privacy@esportshub.in.
+              If you have any questions about this Privacy Policy, please contact our Data Protection Officer at esportshubindia@gmail.com.
             </p>
           </div>
         </motion.div>

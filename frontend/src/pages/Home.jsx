@@ -6,8 +6,7 @@ import Skeleton from '../components/common/Skeleton';
 import CountdownTimer from '../components/CountdownTimer';
 import logo from '../assets/logo_final.png';
 import { GameIcon } from '../utils/gameLogos';
-import { FaDiscord, FaInstagram, FaTelegramPlane, FaYoutube, FaTrophy, FaUsers, FaGamepad, FaMapMarkedAlt, FaUserCircle, FaSearch, FaCrosshairs, FaMedal, FaArrowRight } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
+import { FaEnvelope, FaPhone, FaTrophy, FaUsers, FaGamepad, FaMapMarkedAlt, FaUserCircle, FaSearch, FaCrosshairs, FaMedal, FaArrowRight } from 'react-icons/fa';
 
 /* ─────────────── DATA ─────────────── */
 const GAMES = [
@@ -147,12 +146,7 @@ const STREAMERS = [
   { name: 'Regaltos', game: 'BGMI', followers: '3.4M', platform: 'YouTube', color: '#8B5CF6', handle: '@regaltos' },
 ];
 
-const COMMUNITY_CHANNELS = [
-  { name: 'Discord', desc: '18,000+ members online now', icon: <FaDiscord />, color: '#5865F2', members: '48K', link: '#' },
-  { name: 'Instagram', desc: 'Follow for match highlights', icon: <FaInstagram />, color: '#E1306C', members: '120K', link: '#' },
-  { name: 'Telegram', desc: 'Live tournament alerts & results', icon: <FaTelegramPlane />, color: '#0088CC', members: '32K', link: '#' },
-  { name: 'YouTube', desc: 'Match VODs and coaching content', icon: <FaYoutube />, color: '#FF0000', members: '85K', link: '#' },
-];
+
 
 const TOP_CLANS = [
   { name: 'GodLike Esports', tag: 'GLE', game: 'BGMI', wins: 47, color: '#ffd60a' },
@@ -761,13 +755,10 @@ export default function Home() {
               {/* Social icons */}
               <div style={{ display: 'flex', gap: 10 }}>
                 {[
-                  { icon: <FaDiscord />, color: '#5865F2', label: 'Discord' },
-                  { icon: <FaInstagram />, color: '#E1306C', label: 'Instagram' },
-                  { icon: <FaTelegramPlane />, color: '#0088CC', label: 'Telegram' },
-                  { icon: <FaYoutube />, color: '#FF0000', label: 'YouTube' },
-                  { icon: <FaXTwitter />, color: '#FFFFFF', label: 'X' },
+                  { icon: <FaEnvelope />, color: '#ea4335', label: 'Gmail', href: 'mailto:esportshubindia@gmail.com' },
+                  { icon: <FaPhone />, color: '#00F3FF', label: 'Phone', href: 'tel:+919876543210' },
                 ].map(s => (
-                  <a key={s.label} href="#" title={s.label} style={{
+                  <a key={s.label} href={s.href} title={s.label} style={{
                     width: 38, height: 38, borderRadius: '50%', display: 'flex',
                     alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem',
                     background: 'rgba(255,255,255,0.03)', 
@@ -820,17 +811,14 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Community */}
+            {/* Contact Us */}
             <div>
-              <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '0.8rem', color: 'var(--pink)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 20 }}>Community</div>
+              <div style={{ fontFamily: 'Orbitron', fontWeight: 700, fontSize: '0.8rem', color: 'var(--pink)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 20 }}>Contact Us</div>
               {[
-                { label: 'Discord Server', icon: <FaDiscord />, href: '#' },
-                { label: 'Instagram', icon: <FaInstagram />, href: '#' },
-                { label: 'Telegram Alerts', icon: <FaTelegramPlane />, href: '#' },
-                { label: 'YouTube Channel', icon: <FaYoutube />, href: '#' },
-                { label: 'X (Twitter)', icon: <FaXTwitter />, href: '#' },
+                { label: 'esportshubindia@gmail.com', icon: <FaEnvelope />, href: 'mailto:esportshubindia@gmail.com' },
+                { label: '+91 98765 43210', icon: <FaPhone />, href: 'tel:+919876543210' },
               ].map(l => (
-                <a key={l.label} href={l.href} target="_blank" rel="noreferrer" style={{
+                <a key={l.label} href={l.href} style={{
                   display: 'flex', alignItems: 'center', gap: 10, color: 'var(--text-muted)', fontSize: '0.9rem',
                   fontFamily: 'Rajdhani', fontWeight: 600, marginBottom: 12,
                   transition: 'color 0.3s',
