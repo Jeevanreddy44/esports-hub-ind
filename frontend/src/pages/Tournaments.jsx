@@ -6,6 +6,7 @@ import { tournamentAPI } from '../services/api';
 import Skeleton from '../components/common/Skeleton';
 import CountdownTimer from '../components/CountdownTimer';
 import { GameIcon } from '../utils/gameLogos';
+import toast from 'react-hot-toast';
 
 const GAMES = ['all', 'Valorant', 'BGMI', 'MLBB', 'Free Fire Max', 'Pokemon Unite', 'Minecraft', 'CS2', 'Call of Duty Mobile', 'Tekken 8', 'Clash Royale', 'FC Mobile'];
 const STATUSES = ['all', 'live', 'upcoming', 'past'];
