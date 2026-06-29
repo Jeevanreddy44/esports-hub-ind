@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const path = require('path');
 const { initDB } = require('./db/database');
 const authRoutes = require('./routes/auth');
 const tournamentRoutes = require('./routes/tournaments');
@@ -16,7 +15,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: true, // Allow any origin to connect
+  origin: true,
   credentials: true
 }));
 app.use(express.json());
@@ -27,8 +26,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// Initialize database
-initDB();
+// Initialize database only once (not on every serverless cold start re-import)
+let dbInitialized = false;
+if (!dbInitialized) {
+  initDB();
+  dbInitialized = true;
+}
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -42,15 +45,17 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Esports Hub India Backend Running!' });
 });
 
-// Serve static frontend build
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
+// Local server start (not used in Vercel serverless)
+if (require.main === module) {
+  const path = require('path');
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  app.get('/:path*', (req, res) => {
+    if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'API endpoint not found' });
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+  });
+  app.listen(PORT, () => {
+    console.log(`🎮 Esports Hub India Backend running on port ${PORT}`);
+  });
+}
 
-// Catch-all route for React SPA, ignore unhandled API routes
-app.get('/:path*', (req, res) => {
-  if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'API endpoint not found' });
-  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-});
-
-app.listen(PORT, () => {
-  console.log(`🎮 Esports Hub India Backend running on port ${PORT}`);
-});
+module.exports = app;
