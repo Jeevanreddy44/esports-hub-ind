@@ -160,7 +160,7 @@ export default function Navbar() {
                 </div>
 
                 <Link to="/profile" className="btn btn-secondary btn-sm shape-pill" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <FaUser style={{ fontSize: '0.8rem' }} /> {user.name.split(' ')[0]}
+                  <FaUser style={{ fontSize: '0.8rem' }} /> {user?.name ? user.name.split(' ')[0] : 'Player'}
                 </Link>
                 <button onClick={handleLogout} className="btn btn-sm shape-pill" style={{
                   background: 'rgba(255,45,120,0.15)',
