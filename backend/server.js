@@ -27,11 +27,8 @@ app.use((req, res, next) => {
 });
 
 // Initialize database only once (not on every serverless cold start re-import)
-let dbInitialized = false;
-if (!dbInitialized) {
-  initDB();
-  dbInitialized = true;
-}
+// Removed initDB() from here. It should be run manually via 'node backend/db/database.js'
+// to prevent wiping the database and timing out Vercel serverless functions on cold start.
 
 // Routes
 app.use('/api/auth', authRoutes);
