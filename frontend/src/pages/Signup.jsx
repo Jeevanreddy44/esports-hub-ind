@@ -56,7 +56,9 @@ export default function Signup() {
       toast.success('Account created! Welcome to the arena.');
       navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.error || 'Signup failed!');
+      const errorData = err.response?.data?.error;
+      const errorMsg = typeof errorData === 'string' ? errorData : (errorData?.message || 'Signup failed!');
+      toast.error(errorMsg);
       setStep(0);
     } finally {
       setLoading(false);

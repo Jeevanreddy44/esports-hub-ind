@@ -67,7 +67,9 @@ export default function Profile() {
       setShowAvatarModal(false);
     } catch (err) {
       console.error('❌ Update Error:', err);
-      toast.error('Failed: ' + (err.response?.data?.error || err.message));
+      const errorData = err.response?.data?.error;
+      const errorMsg = typeof errorData === 'string' ? errorData : (errorData?.message || err.message);
+      toast.error('Failed: ' + errorMsg);
     } finally {
       setUpdating(false);
     }

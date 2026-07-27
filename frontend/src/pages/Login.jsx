@@ -21,7 +21,9 @@ export default function Login() {
       toast.success('Welcome back, Gamer!');
       navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.error || 'Login failed. Check credentials!');
+      const errorData = err.response?.data?.error;
+      const errorMsg = typeof errorData === 'string' ? errorData : (errorData?.message || 'Login failed. Check credentials!');
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
